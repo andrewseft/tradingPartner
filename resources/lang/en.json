@@ -1,0 +1,6 @@
+{
+    "PASSWORD_REGEXP": "Your :attribute should contain at-least 1 Uppercase, 1 Lowercase, 1 Numeric and 1 special character",
+    "ACCOUNT_DEACTIVE" :"Your email is not verified before you make login verify your email by clicking the link from email which you received when you registered with us.",
+    "ACCOUNT_DEACTIVE_ADMIN" :"Website admin has deactivated your account",
+    "UNDER_REVIEW":"Your store information are under review by Website Admin. As soon as your store will be approved you will receive a notification for same."
+ }
