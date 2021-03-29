@@ -106,6 +106,12 @@ Route::group(['prefix' => 'v1'], function () {
                 Route::post('/', 'API\TradingController@trading')->name('order.trading');
             });
 
+            /**
+             * Withdrawal
+             */
+            Route::group(['prefix' => 'withdrawal'], function () {
+                Route::post('/', 'API\WithdrawalController@index')->name('withdrawal');
+            });
            
              
 

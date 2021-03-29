@@ -76,7 +76,7 @@ class WalletController extends BaseController
         try {
             $user = Auth::user();
             if($user->is_kyc == 0){
-                //return $this->sendError("Your KYC is complete, otherwise awaiting approval.");
+                return $this->sendError("Your KYC is complete, otherwise awaiting approval.");
             }
             $amount = 0;
             $walletData = $this->wallet->where('user_id',$user->id)->orderBy('id', 'desc')->first();

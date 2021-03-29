@@ -33,6 +33,8 @@ class Constant
     const ITEM_STATUS = [1=>'Active',2=>'Deactive'];
     const CURRENCY = "₹";
     const ITEM_STATUS_SHOW = ['false'=>0,'true'=>1];
+
+    const WITHDRAWAL_STATUS = [1=>'Paid',2=>'Unpaid'];
     
     /**
      * User Image
@@ -80,6 +82,9 @@ class Constant
 
     const FCM_KEY = "AAAAHomf_Vw:APA91bG3YysQxhyFTW04mw9WUBtxrRLLb8t3C5L8Cu5RGw3B6Mo6RBb_EBGrVDslRtidsmHwqK8YDz_VcWPKZRY2JCJUAy10Rq_Qf0apAM_zdJUz7HBBxG1a9eUYRjxJcqBfQIBKnVW_";
     const PLAN_TYPE = [1=>'Redeem',2=>'Trading',3=>'Auto'];
+
+    const API_KEY = "rzp_test_JsWSlKngGfV7tm";
+    const API_SECRET = "dbfHfQYKyIvITIlbYsg6O7Ox";
 
 
 

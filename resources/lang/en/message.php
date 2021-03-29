@@ -50,8 +50,11 @@ return [
     "PLAN_STATUS" =>"Plan Status",
     "BYE_PLAN" => "You have Buy a :PLAN_NAME plan and his qty is :QTY, we will update you shortly",
     "WALLET_STATUS" => "Wallet Status",
+    "WITHDRAWAL_STATUS" => "Withdrawal Request",
     "USER_WALLET_AMOUNT" => ":NAME has been added a :AMOUNT his wallet",
+    "USER_WITHDRAWAL_REQUEST" => ":NAME has been submited withdrawal request :AMOUNT",
     "WALLET_AMOUNT_USER" => "You have successfully added  :AMOUNT in your wallet, current balance now is :TOTAL_AMOUNT, and please see more details in your passbook on app",
+    "WITHDRAWAL_REQUEST" => "Your withdrawal request has been successfully submitted, current balance now is :TOTAL_AMOUNT , we will update  withdrawal amount in your bank account",
     "SUBMIT_CONTACT_US" => "Thank you for contacting us we will get back to you soon",
     "CONTACT_US_MESSAGE" => "We will receive a new inquiry, please check a below details. \n <b>Name: &nbsp;</b>:NAME \n <b>Email: &nbsp;</b>:EMAIL \n <b>Number: &nbsp;</b>:NUMBER \n <b>Message: &nbsp;</b>:MESSAGE",
     "CONTACT_US" => "Contact Us",
@@ -62,5 +65,6 @@ return [
     "WALLET_AMOUNT_USER_DEBIT" => "Administrator has been debit :AMOUNT in your wallet, current balance now is :TOTAL_AMOUNT, and please see more details in your passbook on app",
     "REFERRAL_AMOUNT" =>"You have received a referral bonus for month and  amount is :MONTH  amount :AMOUNT in your wallet, current balance now is :TOTAL_AMOUNT, and please see more details in your passbook on app",
     "REFERRAL_AMOUNT_ADMIN" => ":NAME has been received a referral bonus for :MONTH month and  amount is :AMOUNT his wallet",
-    "UPDATE_DATA" => "Information has been updated"
+    "UPDATE_DATA" => "Information has been updated",
+    "WITHDRAWAL_UPDATE" => "Administrator has been credit your withdrawal request :AMOUNT in registered bank account, and note for you :NOTE"
 ];

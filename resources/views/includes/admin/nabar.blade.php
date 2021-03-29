@@ -29,6 +29,9 @@
                 <li class="{{Helper::activeAction(['StatementController@userStatement','WalletController@userWallet','SubscriptionRedeemController@userRedeem','SubscriptionRedeemController@userRedeem','SubscriptionController@userSubscription','OrderController@userOrder','CustomerController@index','CustomerController@edit','CustomerController@chnagePassword','CustomerController@view','CustomerController@add'])}}"> {!! Html::decode(link_to_route('admin.customer', __('Customers'),null,['class'=>'collapse-item '.Helper::activeAction(['CustomerController@chnagePassword','CustomerController@view','CustomerController@index','CustomerController@edit'])])) !!} </li>
             </ul>
         </li>
+        <li class="{{Helper::activeAction(['WithdrawalController@index'])}}">
+            {!! Html::decode(link_to_route('admin.withdrawal','<i class="fas fa-wallet"></i> <span class="nav-title">'. __('Withdrawal Request').'</span>',null,['class'=>'nav-link '])) !!}
+        </li>
         <li class="{{Helper::activeAction(['PlanController@statementViewStop','PlanController@statementView','PlanController@viewPMS','PlanController@index','PlanController@edit','PlanController@add','PlanController@view'])}}">
             {!! Html::decode(link_to_route('admin.plan','<i class="fas fa-sign-language"></i> <span class="nav-title">'. __('Plans').'</span>',null,['class'=>'nav-link '])) !!}
         </li>

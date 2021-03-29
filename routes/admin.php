@@ -274,6 +274,15 @@ Route::group(['middleware'=>'minifier'], function(){
                 Route::get('view/{id}', 'ContactUsController@view')->name('admin.contactUs.view');
             });
 
+             /**
+             * Withdrawal
+             */
+            Route::group(['prefix' => 'withdrawal'], function () {
+                Route::get('/', 'WithdrawalController@index')->name('admin.withdrawal');
+                Route::get('view/{id}', 'WithdrawalController@view')->name('admin.withdrawal.view');
+                Route::get('addAmount', 'WithdrawalController@addAmount')->name('admin.withdrawal.addAmount');
+            });
+
              
             
         });

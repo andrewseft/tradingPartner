@@ -46,3 +46,8 @@ wget -q -O- http://bankniftypms.com/checkSubscription
 https://docs.google.com/spreadsheets/d/1DMamk5z3jqJ3jtj-tRMi-qdVGJAC8us3j9ZG8kpGnII/edit?usp=sharing
 
 https://docs.google.com/spreadsheets/d/1Q-m3ohXR7BOBrNcJ3we-2m46XPkrNwHcGLgyMKdaUsU/edit?usp=sharing
+
+https://icicibank.razorpay.com/app/dashboard
+
+arifspj@gmail.com
+sXR9bDXd#6@YPRV
