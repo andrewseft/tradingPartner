@@ -1,0 +1,233 @@
+@media(max-width:1598.98px)
+{
+
+
+}
+
+@media(max-width:1199.98px)
+{
+    header .navbar-nav a{
+        margin: 5px 5px;
+        font-size: 15px;
+    }
+    .login_sec {
+        padding-top: 7.64rem;
+    }
+    .banner_sec{
+        padding-top: 8.64rem!important;
+    }
+    header .login-btn a{
+        margin: 0px 4px;
+        padding: 7px 32px;
+        font-size: 18px
+    }
+    .heading_sec h2{
+        font-size: 2.57rem;
+    }
+    .offer_sec{
+        padding: 2.57rem 0rem;
+    }
+    .banner_sec{
+        padding-top: 2.64rem;
+        height: 756px;
+    }
+    .freq_sec .freq_sec_inner .card-header{
+        font-size: 1.3rem;
+    }
+    .banner_sec .banner_side_content .banner-holder img, .download_app_sec .app-holder img{
+        max-width: 135px;
+        max-height: 50px;
+    }
+    .download_app_sec{
+        padding: 2.57rem 0rem;
+    }
+   
+}
+
+@media(max-width:991.98px)
+{
+   
+    header .navbar-nav a{
+        margin: 2px 5px;
+    }
+    header .login-btn a {
+        margin: 0px 4px;
+        padding: 5px 24px;
+        font-size: 15px;
+    }
+    .banner_sec .banner_side_content h1{
+        font-size: 2.30rem;
+    }
+    .why_sec .about_sec_inner img, .faq_mobile img{
+        max-width: 400px;
+        max-height: 400px;
+        margin: 0 auto;
+        display: block;
+    }
+    .app-download-inner h3{
+        font-size: 2.57rem;
+    }
+    .app-holder{
+        margin-top: 1.92rem;
+    }
+    .app_sec{
+        padding: 2.57rem 0rem;
+    }
+    footer{
+        padding-top: 3rem;
+    }
+    .bar{
+        margin: 9px auto;
+    }
+    .about-why_sec h3{
+        font-size: 2rem!important;
+    }
+    .footer-holder li a img{
+        max-width: 120px;
+        max-height: 50px;
+    }
+    .offer_sec .offer_images img{
+        height: 123px;
+
+    }
+    .heading_sec h2 {
+        font-size: 2rem;
+    }
+    .privacy_sec p{
+        font-size: 1rem;
+    }
+}
+
+@media(max-width:767.98px)
+{
+    .login_sec form .login_input{
+        height: 37px;
+    }
+    .process_sec .process_box{
+        padding: 17px;
+    }
+    .process_sec .process_box h3{
+        font-size: 1.35rem;
+        margin-top: 1rem;
+    }
+    .banner_input{
+        height: 2.92rem!important;
+    }
+    .freq_sec .freq_sec_inner .card-body{
+        font-size: 1rem;
+    }
+    .process_sec {
+        padding: 1.57rem 0rem;
+    }
+    .banner_sec {
+        padding-top: 1.64rem;
+        height: auto;
+        padding-bottom: 1.5rem;
+    }
+    .banner_form{
+        margin-top: 1.64rem;
+        padding: 24px;
+    }
+    .heading_sec h2 {
+        font-size: 1.71rem;
+    }
+    .bar{
+        margin: 8px auto;
+    }
+    form .btn{
+        padding: 8px 25px;
+    }
+    .footer_widget h3{
+        font-size: 1.42rem;
+    }
+    .footer_widget p{
+        font-size: 1rem;
+    }
+    footer .footer_widget .list li{
+        font-size: 1.12rem;
+    }
+    .copy-right{
+        padding-top: 16px;
+        padding-bottom: 6px;
+    }
+    .copy-right-text p{
+        font-size: 1rem;
+    }
+    footer .social-list a{
+      
+        width: 2.14rem;
+        height: 2.14rem;
+        font-size: 1rem;
+    }
+    footer .footer_widget a .footer_f_image{
+        max-width: 120px;
+        max-height: 50px;
+    }
+}
+@media(max-width:575.98px)
+{
+    .bg{
+        top: -12em;  
+}
+.banner_sec .banner_form h3{
+    font-size: 1.6rem;
+}
+.banner_sec .banner_form{
+    padding: 17px;
+}
+.banner_sec .banner_side_content h1 {
+    font-size: 2rem;
+}
+p{
+    font-size: 1rem!important;
+}
+.freq_sec .freq_sec_inner .card-header{
+    font-size: 1.1rem;
+}
+.banner_sec .banner_side_content p{
+    font-size: 1rem;
+}
+.freq_sec_inner .card-header{
+    padding: 4px 7px;
+}
+.offer_sec .offer_images img {
+    height: 88px;
+}
+.offer_sec .offer_content h3{
+    font-size: 1rem;
+}
+.why_sec .about_sec_inner img, .faq_mobile img{
+    max-width: 264px;
+    max-height: 264px;
+}
+.contact_sec .contact_information h3{
+    font-size: 24px;
+    line-height: 1.2;
+}
+footer {
+    padding-top: 1rem;
+}
+.freq_sec{
+    padding: 1.5rem 0rem;
+}
+.app-download-inner h3 {
+    font-size: 1.71rem;
+}
+.process_sec .feat-list ul li{
+    font-size: 1rem;
+}
+.process_sec .process_box .icon img{
+    width: 279px;
+    height: 240px;
+}
+.process_sec .process_box{
+    margin-bottom: 1.42rem;
+}
+.login_btn p{
+    font-size: 1rem;
+}
+.signup_sec .bg{
+    top: -10em!important;
+    height: 786px!important;
+}
+}
