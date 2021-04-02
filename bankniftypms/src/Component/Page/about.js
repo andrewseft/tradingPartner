@@ -11,6 +11,7 @@ const About = (props) => {
     <>
       {homePageData.why && (
         <section
+          id="why-us"
           dangerouslySetInnerHTML={prepareHtml(homePageData.why.description)}
         ></section>
       )}

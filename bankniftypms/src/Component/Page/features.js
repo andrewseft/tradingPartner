@@ -39,6 +39,7 @@ const Features = (props) => {
     <>
       {homePageData.features && (
         <section
+          id="features"
           className="process_sec p-0"
           dangerouslySetInnerHTML={prepareHtml(
             homePageData.features.description

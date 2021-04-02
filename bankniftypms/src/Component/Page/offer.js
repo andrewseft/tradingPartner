@@ -12,6 +12,7 @@ const Offer = (props) => {
     <>
       {homePageData.offer && (
         <section
+          id="what-we-offer"
           className="offer_sec"
           dangerouslySetInnerHTML={prepareHtml(homePageData.offer.description)}
         ></section>

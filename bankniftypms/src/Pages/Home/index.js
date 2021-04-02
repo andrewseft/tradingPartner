@@ -13,14 +13,10 @@ const Index = (props) => {
 
   useEffect(() => {
     document.title = title
-    if (location.pathname === "/what-we-offer") {
-      window.scrollTo({ top: 700, left: 0, behavior: "smooth" })
-    } else if (location.pathname === "/why-us") {
-      window.scrollTo({ top: 500 * 3, left: 0, behavior: "smooth" })
-    } else if (location.pathname === "/features") {
-      window.scrollTo({ top: 500 * 9, left: 0, behavior: "smooth" })
-    } else {
-      window.scrollTo({ top: 0, left: 0, behavior: "smooth" })
+    var id = location.pathname.replace("/", "")
+    var position = document.getElementById(id.trim())
+    if (position) {
+      position.scrollIntoView({ behavior: "smooth" })
     }
   }, [title, location])
 
