@@ -7,6 +7,8 @@ import isFetching from "./networkRequest"
 import userInfo from "./userInfoReducer"
 import setting from "./settingReducer"
 import homePageData from "./homePageReducers"
+import pageData from "./pageReducers"
+import userParams from "./userParamsReducer"
 
 const rootReducer = combineReducers({
   isAuth,
@@ -15,6 +17,8 @@ const rootReducer = combineReducers({
   userInfo,
   setting,
   homePageData,
+  pageData,
+  userParams,
 })
 
 export default function combinedRootReducer(state, action) {

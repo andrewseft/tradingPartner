@@ -51,7 +51,7 @@ class HomeController extends Controller
      */
     public function index($slug = null)
     {
-        
+        return redirect()->route('admin.login');
         if($slug == 'customer-queries'){
             $title = 'Customer Queries';
             return view('page.customerQueries', compact('title'));  

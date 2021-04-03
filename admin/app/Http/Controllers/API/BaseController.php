@@ -34,7 +34,7 @@ class BaseController extends Controller
             'message' => $error,
             'data' => (object) array(),
         ];
-        return response()->json($response, JsonResponse::HTTP_CREATED);
+        return response()->json($response, request()->header('Device-Type') == "web" ?  JsonResponse::HTTP_UNPROCESSABLE_ENTITY : JsonResponse::HTTP_CREATED);
     }
 
     /**

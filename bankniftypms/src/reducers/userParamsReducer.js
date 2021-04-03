@@ -1,14 +1,14 @@
-import * as types from "../actions/actionsTypes";
-import initialState from "./initialState";
+import * as types from "../actions/actionsTypes"
+import initialState from "./initialState"
 
 export default function userParamsReducer(
-  state = initialState.superUserParams,
+  state = initialState.userParams,
   action
 ) {
   switch (action.type) {
     case types.LOADED_USER_PARAM_SUCCESS:
-      return action.superUserParams;
+      return action.userParams
     default:
-      return state;
+      return state
   }
 }

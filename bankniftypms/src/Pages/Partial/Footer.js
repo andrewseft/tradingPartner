@@ -103,6 +103,7 @@ const Footer = (props) => {
                       href="#!"
                       onClick={(e) => {
                         e.preventDefault()
+                        window.open(setting.google_link, "_blank")
                       }}
                     >
                       <img
@@ -117,6 +118,7 @@ const Footer = (props) => {
                       href="#!"
                       onClick={(e) => {
                         e.preventDefault()
+                        window.open(setting.apple_link, "_blank")
                       }}
                     >
                       <img src="./assets/img/app-store.png" alt="apple" />

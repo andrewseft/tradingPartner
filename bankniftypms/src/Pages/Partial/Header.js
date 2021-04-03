@@ -57,7 +57,7 @@ const Header = () => {
                   className="nav-link"
                   exact
                   activeClassName="active"
-                  to="/reach-us"
+                  to="/contact-us"
                 >
                   Reach Us
                 </NavLink>
@@ -71,9 +71,14 @@ const Header = () => {
                 </NavLink>
               </Nav>
               <div className="login-btn">
-                <Nav.Link href="/login" className="btn-3">
+                <NavLink
+                  className="btn-3"
+                  exact
+                  activeClassName="active"
+                  to="/login"
+                >
                   SignIn
-                </Nav.Link>
+                </NavLink>
                 <Nav.Link href="/signup" className="btn-3">
                   SignUp
                 </Nav.Link>

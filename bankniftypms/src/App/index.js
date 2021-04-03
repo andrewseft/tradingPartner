@@ -11,7 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css"
 import "@fortawesome/fontawesome-free/css/all.css"
 
 const App = (props) => {
-  const { isFetching, actions } = props
+  const { isFetching, actions, isAuth } = props
   useEffect(() => {
     const fetchData = () => {
       actions.getSettingData()
@@ -22,7 +22,7 @@ const App = (props) => {
     <>
       {isFetching && <Loading />}
       <ScrollToTop />
-      <Page />
+      <Page isAuth={isAuth} />
     </>
   )
 }
@@ -30,6 +30,7 @@ const App = (props) => {
 function mapStateToProps(state) {
   return {
     isFetching: state.isFetching,
+    isAuth: state.isAuth,
   }
 }
 

@@ -132,7 +132,9 @@ class Helper
             'data' => (object) array(),
         ];
         throw new HttpResponseException(
-            response()->json($response, JsonResponse::HTTP_CREATED)
+            
+            response()->json($response, request()->header('Device-Type') == "web" ?  JsonResponse::HTTP_UNPROCESSABLE_ENTITY : JsonResponse::HTTP_CREATED)
+            //response()->json($response, JsonResponse::HTTP_CREATED)
         );
     }
 

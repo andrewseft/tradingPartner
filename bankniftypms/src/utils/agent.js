@@ -4,6 +4,7 @@ const agent = axios.create({
   baseURL: REACT_APP_API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
+    "Device-Type": "web",
     Accept: "application/json",
   },
 })
@@ -29,9 +30,9 @@ agent.interceptors.response.use(
     return response
   },
   function (error) {
-    if (error.response.data.message === "Unauthenticated.") {
+    if (error.response.data.status === 401) {
       localStorage.removeItem("persist:root")
-      window.location.href = "/"
+      window.location.href = "/login"
     }
     return Promise.reject(error.response.data)
   }

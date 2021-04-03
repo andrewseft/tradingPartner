@@ -3,6 +3,7 @@ import { Container, Row, Col } from "react-bootstrap"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import Slider from "react-slick"
+import Animate from "./animate"
 
 const Features = (props) => {
   const { homePageData } = props
@@ -89,6 +90,7 @@ const Features = (props) => {
               </Slider>
             </Col>
           </Row>
+          <Animate />
         </Container>
       </section>
     </>

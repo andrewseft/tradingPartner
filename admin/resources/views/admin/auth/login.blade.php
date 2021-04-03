@@ -26,7 +26,7 @@ if(!empty($user)){
                 <div class="invalid-feedback d-flex" id="email-error"></div>
             </div>
             <div class="input-group input-lg">
-            {{Form::password('password', ['placeholder'=>__('Password*'),'id'=>'password','class' =>$errors->has('password') ? 'form-control form-control-user has-error': 'form-control form-control-user','data-validation'=>'required,confirmation,custom,length','data-validation-confirm'=>'password','data-validation-error-msg-confirmation'=>__('Password and confirm password does not matched'),'data-validation-error-msg-required'=>__('This is a required field'),'data-validation-error-msg-container'=>'#password-error','data-validation-length'=>'6-50','data-validation-regexp'=>'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$','data-validation-error-msg-custom'=>__('PASSWORD_REGEXP'),'autofocus'=>'true'])}}
+            {{Form::password('password', ['placeholder'=>__('Password*'),'id'=>'password','class' =>$errors->has('password') ? 'form-control form-control-user has-error': 'form-control form-control-user','data-validation'=>'required','data-validation-confirm'=>'password','data-validation-error-msg-confirmation'=>__('Password and confirm password does not matched'),'data-validation-error-msg-required'=>__('This is a required field'),'data-validation-error-msg-container'=>'#password-error','data-validation-length'=>'6-50','data-validation-regexp'=>'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$','data-validation-error-msg-custom'=>__('PASSWORD_REGEXP'),'autofocus'=>'true'])}}
                 <span class="input-group-addon">
                     <i class="zmdi zmdi-lock"></i>
                 </span>

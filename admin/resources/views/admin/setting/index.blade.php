@@ -57,7 +57,7 @@
                                         </div>
                                         <div class="form-group">
                                             {!! Html::decode(Form::label('Address',__('Address').'<span class="text-danger">*</span>',['class'=>''])) !!}
-                                            {{ Form::textarea('address',null , array_merge(['size'=>'20x5','class' => $errors->has('address') ? 'form-control form-control-user has-error ': 'form-control form-control-user ','data-validation'=>'required','data-validation-error-msg-required'=>__('This is a required field'),'data-validation-error-msg-container'=>'#address_error'])) }}
+                                            {{ Form::textarea('address',null , array_merge(['size'=>'20x3','class' => $errors->has('address') ? 'form-control form-control-user has-error ': 'form-control form-control-user ','data-validation'=>'required','data-validation-error-msg-required'=>__('This is a required field'),'data-validation-error-msg-container'=>'#address_error'])) }}
                                             <div class="invalid-feedback d-flex" id="address_error"></div>
                                             @error('address')
                                                 <span class="invalid-feedback d-flex has-error">{{ $message }}</span>
@@ -65,9 +65,36 @@
                                         </div>
                                         <div class="form-group">
                                             {!! Html::decode(Form::label('Copyright',__('Copyright').'<span class="text-danger">*</span>',['class'=>''])) !!}
-                                            {{ Form::textarea('copy_right',null , array_merge(['size'=>'20x5','class' => $errors->has('copy_right') ? 'form-control form-control-user has-error ': 'form-control form-control-user ','data-validation'=>'required','data-validation-error-msg-required'=>__('This is a required field'),'data-validation-error-msg-container'=>'#copy_right_error'])) }}
+                                            {{ Form::textarea('copy_right',null , array_merge(['size'=>'20x3','class' => $errors->has('copy_right') ? 'form-control form-control-user has-error ': 'form-control form-control-user ','data-validation'=>'required','data-validation-error-msg-required'=>__('This is a required field'),'data-validation-error-msg-container'=>'#copy_right_error'])) }}
                                             <div class="invalid-feedback d-flex" id="copy_right_error"></div>
                                             @error('copy_right')
+                                                <span class="invalid-feedback d-flex has-error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group">
+                                            {!! Html::decode(Form::label('about_us',__('About Us for footer').'<span class="text-danger">*</span>',['class'=>''])) !!}
+                                            {{ Form::textarea('about_us',null , array_merge(['size'=>'20x3','class' => $errors->has('about_us') ? 'form-control form-control-user has-error ': 'form-control form-control-user ','data-validation'=>'required','data-validation-error-msg-required'=>__('This is a required field'),'data-validation-error-msg-container'=>'#about_us_error'])) }}
+                                            <div class="invalid-feedback d-flex" id="about_us_error"></div>
+                                            @error('about_us')
+                                                <span class="invalid-feedback d-flex has-error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group">
+                                            {!! Html::decode(Form::label('google_link',__('Play store link').'<span class="text-danger">*</span>',['class'=>''])) !!}
+                                            {{ Form::textarea('google_link',null , array_merge(['size'=>'20x3','class' => $errors->has('google_link') ? 'form-control form-control-user has-error ': 'form-control form-control-user ','data-validation'=>'required','data-validation-error-msg-required'=>__('This is a required field'),'data-validation-error-msg-container'=>'#google_link_error'])) }}
+                                            <div class="invalid-feedback d-flex" id="google_link_error"></div>
+                                            @error('google_link')
+                                                <span class="invalid-feedback d-flex has-error">{{ $message }}</span>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group">
+                                            {!! Html::decode(Form::label('apple_link',__('App store link').'<span class="text-danger">*</span>',['class'=>''])) !!}
+                                            {{ Form::textarea('apple_link',null , array_merge(['size'=>'20x3','class' => $errors->has('apple_link') ? 'form-control form-control-user has-error ': 'form-control form-control-user ','data-validation'=>'required','data-validation-error-msg-required'=>__('This is a required field'),'data-validation-error-msg-container'=>'#apple_link_error'])) }}
+                                            <div class="invalid-feedback d-flex" id="apple_link_error"></div>
+                                            @error('apple_link')
                                                 <span class="invalid-feedback d-flex has-error">{{ $message }}</span>
                                             @enderror
                                         </div>

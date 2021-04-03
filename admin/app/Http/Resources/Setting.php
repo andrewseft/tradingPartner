@@ -20,7 +20,9 @@ class Setting extends JsonResource
             'number' => $this->number,
             'address' => $this->address,
             'copy_right' => $this->copy_right,
-            'about_us' => $this->about_us
+            'about_us' => $this->about_us,
+            'google_link' => $this->google_link,
+            'apple_link' => $this->apple_link
         ];
     }
 }

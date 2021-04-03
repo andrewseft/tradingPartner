@@ -6,4 +6,6 @@ export default {
   userInfo: {},
   setting: {},
   homePageData: {},
+  pageData: {},
+  userParams: {},
 }

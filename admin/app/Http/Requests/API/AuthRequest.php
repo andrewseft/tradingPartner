@@ -30,9 +30,7 @@ class AuthRequest extends FormRequest
     {
         return [
             'email' => 'required|max:50',
-            'password' => 'required|string|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/|min:6|max:50',
-            'device_token' => 'required',
-            'device_type' => 'required',
+            'password' => 'required',
         ];
     }
 

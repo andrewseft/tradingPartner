@@ -41,6 +41,9 @@ class SettingManager
         $data->number = $request->get('number');
         $data->address = $request->get('address');
         $data->copy_right = $request->get('copy_right');
+        $data->about_us = $request->get('about_us');
+        $data->google_link = $request->get('google_link');
+        $data->apple_link = $request->get('apple_link');
         $data->admin_limit = $request->get('admin_limit');
         $data->front_limit = $request->get('front_limit');
         $data->planform_fee = $request->get('planform_fee');

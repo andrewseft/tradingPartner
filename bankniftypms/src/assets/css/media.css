@@ -29,7 +29,7 @@
     }
     .banner_sec{
         padding-top: 2.64rem;
-        height: 756px;
+       
     }
     .freq_sec .freq_sec_inner .card-header{
         font-size: 1.3rem;
@@ -49,6 +49,9 @@
    
     header .navbar-nav a{
         margin: 2px 5px;
+    }
+    .preloader .preloader{
+        left: 45%;
     }
     header .login-btn a {
         margin: 0px 4px;
@@ -102,6 +105,9 @@
 {
     .login_sec form .login_input{
         height: 37px;
+    }
+    .default-shape{
+        display: none;
     }
     .process_sec .process_box{
         padding: 17px;
