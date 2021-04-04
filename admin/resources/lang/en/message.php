@@ -42,6 +42,7 @@ return [
     "SUB_FEES" => "Supplier <b>:USER_NAME</b> was paid a <b>:AMOUNT</b> subscription fees, please review it.",
     "OTP_SENT" => "Please enter otp to continue.",
     "OTP_VERIFIED" =>"OTP is verified",
+    "OTP_UNVERIFIED" =>"Please enter valid OTP.",
     "WRONG" => "Something was wrong",
     "ACCOUNT_MESSAGE_ACITVE_KYC"=>"Your account kyc has been approved by administrator.",
     "ACCOUNT_MESSAGE_REJECT_KYC" => "Your account kyc has been rejected by administrator. because <b>:MESSAGE</b>",
@@ -66,5 +67,7 @@ return [
     "REFERRAL_AMOUNT" =>"You have received a referral bonus for month and  amount is :MONTH  amount :AMOUNT in your wallet, current balance now is :TOTAL_AMOUNT, and please see more details in your passbook on app",
     "REFERRAL_AMOUNT_ADMIN" => ":NAME has been received a referral bonus for :MONTH month and  amount is :AMOUNT his wallet",
     "UPDATE_DATA" => "Information has been updated",
-    "WITHDRAWAL_UPDATE" => "Administrator has been credit your withdrawal request :AMOUNT in registered bank account, and note for you :NOTE"
+    "WITHDRAWAL_UPDATE" => "Administrator has been credit your withdrawal request :AMOUNT in registered bank account, and note for you :NOTE",
+    "FORGOT_PASSWORD_OTP" => "We have sent OTP to your registered email.",
+    "PASSWORD_UPDATED" => "Password changed successfully, Please login again."
 ];

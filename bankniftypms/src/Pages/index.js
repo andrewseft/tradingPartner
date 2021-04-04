@@ -1,8 +1,8 @@
-import React from "react"
+import React, { lazy } from "react"
 import { Route, Switch, Redirect } from "react-router-dom"
 import { RoutesPage, RoutesAuth } from "../Route/route"
-import Header from "./Partial/Header"
-import Footer from "./Partial/Footer"
+const Header = lazy(() => import("./Partial/Header"))
+const Footer = lazy(() => import("./Partial/Footer"))
 
 const RouteWithHeader = ({ component: Component, ...rest }) => {
   return (

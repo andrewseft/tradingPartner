@@ -1,13 +1,9 @@
-import React, { useState, lazy } from "react"
+import React, { lazy } from "react"
 import { Container, Row, Col, Form } from "react-bootstrap"
 import { useForm } from "react-hook-form"
 import { useSelector, useDispatch } from "react-redux"
-import { resetPassword, resendOtpPassword } from "../../../actions/userActions"
+import { checkOtp, resendOtp } from "../../../actions/userActions"
 import TextField from "@material-ui/core/TextField"
-import IconButton from "@material-ui/core/IconButton"
-import InputAdornment from "@material-ui/core/InputAdornment"
-import Visibility from "@material-ui/icons/Visibility"
-import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import { useHistory } from "react-router-dom"
 import { NavLink } from "react-router-dom"
 const Button = lazy(() => import("../../../Component/Button"))
@@ -24,22 +20,17 @@ const Index = (props) => {
   })
 
   const onSubmit = (data) => {
-    let params = data
+    const params = {}
     params.email = userParams.email
-    dispatch(resetPassword(data, push))
-  }
-  const [values, setValues] = useState({
-    password: false,
-  })
-  const handleClickShowPassword = () => {
-    setValues({ ...values, password: !values.password })
+    params.otp = data.otp
+    dispatch(checkOtp(params, push))
   }
 
   const resendOtpClick = (e) => {
     e.preventDefault()
     const data = {}
     data.email = userParams.email
-    dispatch(resendOtpPassword(data))
+    dispatch(resendOtp(data))
   }
 
   return (
@@ -52,7 +43,7 @@ const Index = (props) => {
               <div className="login_round">
                 <Form onSubmit={handleSubmit(onSubmit)}>
                   <img src="./assets/img/logo.png" alt="logo" />
-                  <Form.Group controlId="formBasicEmail" className="pt-5">
+                  <Form.Group controlId="formBasicotp" className="pt-5">
                     <TextField
                       variant="outlined"
                       id="outlined-otp"
@@ -79,39 +70,12 @@ const Index = (props) => {
                       helperText={errors.otp && errors.otp.message}
                     />
                   </Form.Group>
-                  <Form.Group controlId="formBasicEmail">
-                    <TextField
-                      variant="outlined"
-                      id="outlined-password"
-                      label="Password*"
-                      type={values.password ? "text" : "password"}
-                      className="w-100"
-                      error={errors.password ? true : false}
-                      name="password"
-                      inputRef={register({
-                        required: "Please enter your password",
-                      })}
-                      helperText={errors.password && errors.password.message}
-                      InputProps={{
-                        endAdornment: (
-                          <InputAdornment>
-                            <IconButton onClick={handleClickShowPassword}>
-                              {values.password ? (
-                                <Visibility />
-                              ) : (
-                                <VisibilityOff />
-                              )}
-                            </IconButton>
-                          </InputAdornment>
-                        ),
-                      }}
-                    />
-                  </Form.Group>
-                  <div className="d-flex justify-content-between">
+
+                  <div className="d-flex justify-content-between text-right">
                     <div className="checkbox_login d-flex align-items-center"></div>
-                    <div>
+                    <div className="text-right">
                       <NavLink exact to="#!" onClick={(e) => resendOtpClick(e)}>
-                        Resent OTP
+                        Resend OTP
                       </NavLink>
                     </div>
                   </div>
@@ -121,8 +85,9 @@ const Index = (props) => {
                       className={"btn btn-primary shadow-2  mt-3  w-100"}
                     />
                     <p className="mt-5">
+                      Already have an account?
                       <NavLink exact to="/login">
-                        Back To Login
+                        &nbsp;Sign in
                       </NavLink>
                     </p>
                   </div>

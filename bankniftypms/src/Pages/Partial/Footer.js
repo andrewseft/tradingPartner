@@ -1,10 +1,12 @@
 import React from "react"
 import { Container, Row, Col } from "react-bootstrap"
 import { Link, NavLink } from "react-router-dom"
-import { connect } from "react-redux"
+import { useSelector } from "react-redux"
 
-const Footer = (props) => {
-  const { setting } = props
+const Footer = () => {
+  const { setting } = useSelector((state) => ({
+    setting: state.setting,
+  }))
   return (
     <>
       <footer>
@@ -142,10 +144,4 @@ const Footer = (props) => {
   )
 }
 
-function mapStateToProps(state) {
-  return {
-    setting: state.setting,
-  }
-}
-
-export default connect(mapStateToProps)(Footer)
+export default Footer

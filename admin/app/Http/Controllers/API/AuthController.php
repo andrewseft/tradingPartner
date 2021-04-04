@@ -88,7 +88,7 @@ class AuthController extends BaseController
             $this->cache->put('userRegister',$request->all());
             $userData['otp'] = $otp;
             $userData['email'] = $request->email;
-            return $this->sendResponse($userData,trans('message.OTP_SENT'));
+            return $this->sendResponse(true,trans('message.OTP_SENT'));
         }catch (Exception $ex) {
             return $this->sendError($ex->getMessage(),JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }
@@ -116,7 +116,7 @@ class AuthController extends BaseController
                 $user->role_id = 3;
                 $user->status = 1;
                 $user->notification = 1;
-                $user->device_token = $request->device_token;
+                $user->device_token = isset($request->device_token) ? $request->device_token : "";
                 $user->password = bcrypt($request->password);
                 if(isset($request->referral_code)){
                     $dataUser = $this->user->where('referral_code',$request->referral_code)->first();
@@ -149,8 +149,8 @@ class AuthController extends BaseController
                 $token = $userEmail->createToken('token')->accessToken;
                 $userEmail->update([
                     'last_login_at' => Carbon::now()->toDateTimeString(),
-                    'device_token' =>$request->device_token,
-                    'device_type' => $request->device_type,
+                    'device_token' => isset($request->device_token) ? $request->device_token : "",
+                    'device_type' => isset($request->device_type) ? $request->device_type : "",
                     'api_token' => $token,
                     'notification' => 1
                 ]);
@@ -213,9 +213,16 @@ class AuthController extends BaseController
             if($user->status == 0){
                 return $this->sendError(trans('message.ACCOUNT_MESSAGE_DEACITVE'));
             }
-            $passwordReset = $this->passwordReset->PasswordReset($user);
-            $url = route('front.resetPassword', $passwordReset->token);
-            $this->email->sendEmail(Constant::FORGOT_PASSWORD,$user,$url,null);
+            if(request()->header('Device-Type') == "web"){
+                $otp = Helper::__generateNumericOTP(4);
+                $this->user->where('id',$user->id)->update(['token'=>$otp]);
+                $this->email->sendOtp(Constant::OTP,$user,$otp);
+                return $this->sendResponse([], trans('message.FORGOT_PASSWORD_OTP'));
+            }else{
+                $passwordReset = $this->passwordReset->PasswordReset($user);
+                $url = route('front.resetPassword', $passwordReset->token);
+                $this->email->sendEmail(Constant::FORGOT_PASSWORD,$user,$url,null);
+            }
             return $this->sendResponse([], trans('message.FORGOT_PASSWORD'));
         }catch (Exception $ex) {
             return $this->sendError($ex->getMessage(),JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
@@ -258,6 +265,21 @@ class AuthController extends BaseController
             } else {
                 return $this->sendError(trans('message.EMAIL_INVALID'));
             }
+        }catch (Exception $ex) {
+            return $this->sendError($ex->getMessage(),JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    public function resetPassword(Request $request){
+        try {
+            $user = $this->user->where('email', $request->email)->where('token',$request->otp)->first();
+            if(empty($user)){
+                return $this->sendError(trans('message.OTP_UNVERIFIED'));
+            }
+            $user->password = bcrypt($request->password);
+            $user->token = null;
+            $user->save();
+            return $this->sendResponse([], trans('message.PASSWORD_UPDATED'));
         }catch (Exception $ex) {
             return $this->sendError($ex->getMessage(),JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }

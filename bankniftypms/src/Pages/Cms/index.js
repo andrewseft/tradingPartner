@@ -1,13 +1,15 @@
-import React, { useEffect } from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import * as homePageActions from "../../actions/homePageActions"
-import Breadcrumb from "../../Component/Breadcrumb"
+import React, { useEffect, lazy } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { loadPageData } from "../../actions/homePageActions"
 import { Container, Row, Col } from "react-bootstrap"
+const Breadcrumb = lazy(() => import("../../Component/Breadcrumb"))
 
 const Index = (props) => {
-  const { actions, pageData } = props
   const slug = props.location.pathname
+  const dispatch = useDispatch()
+  const { pageData } = useSelector((state) => ({
+    pageData: state.pageData,
+  }))
 
   const prepareHtml = (description) => {
     if (description) {
@@ -18,10 +20,10 @@ const Index = (props) => {
 
   useEffect(() => {
     const fetchData = () => {
-      actions.loadPageData(slug)
+      dispatch(loadPageData(slug))
     }
     fetchData()
-  }, [actions, slug])
+  }, [dispatch, slug])
 
   return (
     <>
@@ -45,16 +47,4 @@ const Index = (props) => {
   )
 }
 
-function mapStateToProps(state) {
-  return {
-    pageData: state.pageData,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Object.assign(homePageActions), dispatch),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Index)
+export default Index

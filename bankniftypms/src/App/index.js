@@ -1,7 +1,6 @@
-import React, { useEffect } from "react"
-import { connect } from "react-redux"
-import * as settingActions from "../actions/settingActions"
-import { bindActionCreators } from "redux"
+import React, { useEffect, Suspense } from "react"
+import { getSettingData } from "../actions/settingActions"
+import { useSelector, useDispatch } from "react-redux"
 import ScrollToTop from "../Component/ScrollToTop"
 import Loading from "../Component/Loader"
 import Page from "../Pages"
@@ -10,34 +9,28 @@ import "./../assets/css/media.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "@fortawesome/fontawesome-free/css/all.css"
 
-const App = (props) => {
-  const { isFetching, actions, isAuth } = props
+const App = () => {
+  const dispatch = useDispatch()
+  const { isAuth, isFetching } = useSelector((state) => ({
+    isAuth: state.isAuth,
+    isFetching: state.isFetching,
+  }))
+
   useEffect(() => {
     const fetchData = () => {
-      actions.getSettingData()
+      dispatch(getSettingData())
     }
     fetchData()
-  }, [actions])
+  }, [dispatch])
   return (
     <>
-      {isFetching && <Loading />}
-      <ScrollToTop />
-      <Page isAuth={isAuth} />
+      <Suspense fallback={<Loading />}>
+        {isFetching && <Loading />}
+        <ScrollToTop />
+        <Page isAuth={isAuth} />
+      </Suspense>
     </>
   )
 }
 
-function mapStateToProps(state) {
-  return {
-    isFetching: state.isFetching,
-    isAuth: state.isAuth,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Object.assign(settingActions), dispatch),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default App

@@ -1,7 +1,28 @@
 import React from "react"
 import { Navbar, Nav, Container } from "react-bootstrap"
+import { useSelector, useDispatch } from "react-redux"
 import { Link, NavLink } from "react-router-dom"
+import { checkConform } from "../../utils/helpers"
+import { userLogout } from "../../actions/userActions"
+import { useHistory } from "react-router-dom"
+
 const Header = () => {
+  const { isAuth } = useSelector((state) => ({
+    isAuth: state.isAuth,
+  }))
+  const { push } = useHistory()
+  const dispatch = useDispatch()
+  const handleLogout = (e) => {
+    e.preventDefault()
+    const afterLogoutCallback = () => {
+      dispatch(userLogout(push))
+    }
+    checkConform(
+      afterLogoutCallback,
+      "Are you sure you want to logout account?"
+    )
+  }
+
   return (
     <>
       <header>
@@ -70,19 +91,36 @@ const Header = () => {
                   Downloads
                 </NavLink>
               </Nav>
-              <div className="login-btn">
-                <NavLink
-                  className="btn-3"
-                  exact
-                  activeClassName="active"
-                  to="/login"
-                >
-                  SignIn
-                </NavLink>
-                <Nav.Link href="/signup" className="btn-3">
-                  SignUp
-                </Nav.Link>
-              </div>
+              {!isAuth ? (
+                <div className="login-btn">
+                  <NavLink
+                    className="btn-3"
+                    exact
+                    activeClassName="active"
+                    to="/login"
+                  >
+                    SignIn
+                  </NavLink>
+                  <NavLink
+                    className="btn-3"
+                    exact
+                    activeClassName="active"
+                    to="/register"
+                  >
+                    SignUp
+                  </NavLink>
+                </div>
+              ) : (
+                <div className="login-btn">
+                  <NavLink
+                    className="btn-3"
+                    to="#!"
+                    onClick={(e) => handleLogout(e)}
+                  >
+                    Logout
+                  </NavLink>
+                </div>
+              )}
             </Navbar.Collapse>
           </Navbar>
         </Container>

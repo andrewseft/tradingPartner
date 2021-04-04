@@ -20,12 +20,14 @@ Route::group(['prefix' => 'v1'], function () {
     Route::post('register', 'API\AuthController@register');
     Route::post('checkOtp', 'API\AuthController@checkOtp');
     Route::post('resendOtp', 'API\AuthController@resendOtp');
+    Route::post('resetPassword', 'API\AuthController@resetPassword');
     Route::post('login', 'API\AuthController@login');
     Route::post('forgotPassword', 'API\AuthController@forgotPassword');
     Route::get('getInvestmentCapital', 'API\CommonController@getInvestmentCapital');
     Route::post('contactUs', 'API\PageController@contactUs')->name('contactUs');
     Route::get('setting', 'API\SettingController@index')->name('setting');
     Route::get('home_page', 'API\PageController@homePage')->name('homePage');
+    
     
     /**
      * Page

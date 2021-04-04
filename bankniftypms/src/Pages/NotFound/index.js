@@ -1,6 +1,6 @@
-import React from "react"
-import Breadcrumb from "../../Component/Breadcrumb"
+import React, { lazy } from "react"
 import { NavLink } from "react-router-dom"
+const Breadcrumb = lazy(() => import("../../Component/Breadcrumb"))
 
 const Index = (props) => {
   return (

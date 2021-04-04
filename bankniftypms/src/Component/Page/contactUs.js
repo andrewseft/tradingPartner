@@ -1,12 +1,12 @@
-import React from "react"
+import React, { lazy } from "react"
 import { Container, Row, Col, Form } from "react-bootstrap"
 import { useForm } from "react-hook-form"
 import TextField from "@material-ui/core/TextField"
-import Button from "../Button"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import * as homePageActions from "../../actions/homePageActions"
-import Animate from "./animate"
+const Button = lazy(() => import("../Button"))
+const Animate = lazy(() => import("./animate"))
 
 const Contact = (props) => {
   const { setting, actions } = props

@@ -3,7 +3,13 @@ import HomePage from "../Pages/Home"
 import FaqPage from "../Pages/Faq"
 import cmsPage from "../Pages/Cms"
 import NotFoundPage from "../Pages/NotFound"
+
+// Auth Page Routes
 import LoginPage from "../Pages/Authentication/SignIn"
+import RegisterPage from "../Pages/Authentication/Register"
+import OtpPage from "../Pages/Authentication/Otp"
+import ForgotPasswordPage from "../Pages/Authentication/ForgotPassword"
+import ResetPasswordPage from "../Pages/Authentication/RestPassword"
 
 export const RoutesPage = [
   { path: "/", component: HomePage, title: "Home" },
@@ -34,4 +40,16 @@ export const RoutesPage = [
 
 export const RoutesAuth = [
   { path: "/login", component: LoginPage, title: "Login" },
+  { path: "/register", component: RegisterPage, title: "Register" },
+  { path: "/otp-verify", component: OtpPage, title: "Otp Verify" },
+  {
+    path: "/forgot-password",
+    component: ForgotPasswordPage,
+    title: "Forgot Password",
+  },
+  {
+    path: "/reset-password",
+    component: ResetPasswordPage,
+    title: "Reset Password",
+  },
 ]

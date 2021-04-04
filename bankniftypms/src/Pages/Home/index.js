@@ -1,15 +1,20 @@
-import React, { useEffect } from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import * as homePageActions from "../../actions/homePageActions"
-import Home from "../../Component/Page/home"
-import Offer from "../../Component/Page/offer"
-import Features from "../../Component/Page/features"
-import About from "../../Component/Page/about"
-import Contact from "../../Component/Page/contactUs"
+import React, { useEffect, lazy } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { loadHomePageData } from "../../actions/homePageActions"
+
+const Home = lazy(() => import("../../Component/Page/home"))
+const Offer = lazy(() => import("../../Component/Page/offer"))
+const Features = lazy(() => import("../../Component/Page/features"))
+const About = lazy(() => import("../../Component/Page/about"))
+const Contact = lazy(() => import("../../Component/Page/contactUs"))
 
 const Index = (props) => {
-  const { title, location, actions, homePageData, setting } = props
+  const { title, location } = props
+  const dispatch = useDispatch()
+  const { homePageData, setting } = useSelector((state) => ({
+    homePageData: state.homePageData,
+    setting: state.setting,
+  }))
 
   useEffect(() => {
     document.title = title
@@ -22,10 +27,10 @@ const Index = (props) => {
 
   useEffect(() => {
     const fetchData = () => {
-      actions.loadHomePageData("index")
+      dispatch(loadHomePageData("index"))
     }
     fetchData()
-  }, [actions])
+  }, [dispatch])
 
   return (
     <>
@@ -38,17 +43,4 @@ const Index = (props) => {
   )
 }
 
-function mapStateToProps(state) {
-  return {
-    homePageData: state.homePageData,
-    setting: state.setting,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Object.assign(homePageActions), dispatch),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Index)
+export default Index

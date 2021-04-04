@@ -1,9 +1,8 @@
-import React, { useState } from "react"
+import React, { useState, lazy } from "react"
 import { Container, Row, Col, Form } from "react-bootstrap"
 import { useForm } from "react-hook-form"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import * as userActions from "../../../actions/userActions"
+import { useSelector, useDispatch } from "react-redux"
+import { userLoginData } from "../../../actions/userActions"
 import TextField from "@material-ui/core/TextField"
 import IconButton from "@material-ui/core/IconButton"
 import InputAdornment from "@material-ui/core/InputAdornment"
@@ -11,18 +10,21 @@ import Visibility from "@material-ui/icons/Visibility"
 import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import Checkbox from "@material-ui/core/Checkbox"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
-import Breadcrumb from "../../../Component/Breadcrumb"
 import { NavLink } from "react-router-dom"
-import Button from "../../../Component/Button"
+const Button = lazy(() => import("../../../Component/Button"))
+const Breadcrumb = lazy(() => import("../../../Component/Breadcrumb"))
 
 const Index = (props) => {
-  const { userParams, actions } = props
+  const dispatch = useDispatch()
+  const { userParams } = useSelector((state) => ({
+    userParams: state.userParams,
+  }))
   const { register, errors, handleSubmit } = useForm({
     defaultValues: userParams,
   })
 
   const onSubmit = (data) => {
-    actions.userLoginData(data)
+    dispatch(userLoginData(data))
   }
   const [values, setValues] = useState({
     password: false,
@@ -105,7 +107,7 @@ const Index = (props) => {
                       />
                     </div>
                     <div>
-                      <NavLink exact to="/login">
+                      <NavLink exact to="/forgot-password">
                         Forget Password
                       </NavLink>
                     </div>
@@ -131,16 +133,5 @@ const Index = (props) => {
     </>
   )
 }
-function mapStateToProps(state) {
-  return {
-    userParams: state.userParams,
-  }
-}
 
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Object.assign(userActions), dispatch),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Index)
+export default Index

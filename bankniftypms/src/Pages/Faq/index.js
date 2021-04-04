@@ -1,9 +1,10 @@
-import React, { useEffect } from "react"
+import React, { useEffect, lazy } from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import * as homePageActions from "../../actions/homePageActions"
-import Faq from "../../Component/Page/faq"
-import Breadcrumb from "../../Component/Breadcrumb"
+
+const Faq = lazy(() => import("../../Component/Page/faq"))
+const Breadcrumb = lazy(() => import("../../Component/Breadcrumb"))
 
 const Index = (props) => {
   const { actions, homePageData } = props

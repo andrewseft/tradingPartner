@@ -12,44 +12,45 @@ export function loadPageDataSuccess(pageData) {
   return { type: types.LOAD_PAGE_DATA_SUCCESS, pageData }
 }
 
-export function loadHomePageData() {
-  return async function (dispatch) {
-    await agent
-      .get(API.HOME_PAGE)
-      .then((response) => {
-        dispatch(loadHomePageDataSuccess(response.data.data))
-      })
-      .catch((error) => {
-        setToaster(error.message)
-      })
+export function loadCapitalDataSuccess(investmentCapital) {
+  return { type: types.INVESTMENT_CAPITAL_SUCCESS, investmentCapital }
+}
+
+export const loadHomePageData = () => async (dispatch) => {
+  try {
+    const response = await agent.get(API.HOME_PAGE)
+    dispatch(loadHomePageDataSuccess(response.data.data))
+  } catch (error) {
+    setToaster(error.message)
   }
 }
 
-export function loadPageData(slug) {
-  return async function (dispatch) {
-    await agent
-      .get(API.CMS_PAGE + slug)
-      .then((response) => {
-        dispatch(loadPageDataSuccess(response.data.data))
-      })
-      .catch((error) => {
-        setToaster(error.message)
-      })
+export const loadPageData = (slug) => async (dispatch) => {
+  try {
+    const response = await agent.get(API.CMS_PAGE + slug)
+    dispatch(loadPageDataSuccess(response.data.data))
+  } catch (error) {
+    setToaster(error.message)
   }
 }
 
-export function submitContactRequest(params) {
-  return async function (dispatch) {
+export const submitContactRequest = (params) => async (dispatch) => {
+  try {
     dispatch(submittingRequestStatus(true))
-    await agent
-      .post(API.SUBMIT_CONTACT_REQUEST, params)
-      .then((response) => {
-        setToaster(response.data.message, "#49BE00")
-        dispatch(submittingRequestStatus(false))
-      })
-      .catch((error) => {
-        setToaster(error.message)
-        dispatch(submittingRequestStatus(false))
-      })
+    const response = await agent.post(API.SUBMIT_CONTACT_REQUEST, params)
+    setToaster(response.data.message, "#49BE00")
+    dispatch(submittingRequestStatus(false))
+  } catch (error) {
+    setToaster(error.message)
+    dispatch(submittingRequestStatus(false))
+  }
+}
+
+export const loadInvestmentCapital = () => async (dispatch) => {
+  try {
+    const response = await agent.get(API.GET_INVESTMENT_CAPITAL)
+    dispatch(loadCapitalDataSuccess(response.data.data))
+  } catch (error) {
+    setToaster(error.message)
   }
 }
