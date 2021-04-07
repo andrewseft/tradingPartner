@@ -114,6 +114,14 @@ const Header = () => {
                 <div className="login-btn">
                   <NavLink
                     className="btn-3"
+                    exact
+                    activeClassName="active"
+                    to="/user/dashboard"
+                  >
+                    Dashboard
+                  </NavLink>
+                  <NavLink
+                    className="btn-3"
                     to="#!"
                     onClick={(e) => handleLogout(e)}
                   >

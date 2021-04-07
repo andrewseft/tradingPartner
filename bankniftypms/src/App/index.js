@@ -6,6 +6,7 @@ import Loading from "../Component/Loader"
 import Page from "../Pages"
 import "./../assets/css/style.css"
 import "./../assets/css/media.css"
+import "./../assets/css/dashboard.css"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "@fortawesome/fontawesome-free/css/all.css"
 

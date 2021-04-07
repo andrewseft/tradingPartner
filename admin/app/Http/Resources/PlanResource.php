@@ -27,7 +27,8 @@ class PlanResource extends JsonResource
             'pl_amount' => $this->closing_balance >= 0 ? '+'.number_format($this->closing_balance,2):number_format($this->closing_balance,2),
             'pl_percentage' => $this->closing_balance >=0 ? '+'.number_format(($this->closing_balance/$this->amount) * 100,2).'%' : number_format(($this->closing_balance/$this->amount) * 100,2).'%',
             'start_time' => $this->start_time,
-            'end_time' => $this->end_time
+            'end_time' => $this->end_time,
+            'color' => ($this->amount+$this->closing_balance) >= $this->amount ? true:false
         ];
     }
 }

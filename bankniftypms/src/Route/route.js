@@ -11,6 +11,13 @@ import OtpPage from "../Pages/Authentication/Otp"
 import ForgotPasswordPage from "../Pages/Authentication/ForgotPassword"
 import ResetPasswordPage from "../Pages/Authentication/RestPassword"
 
+// After login Page Routes
+import DashboardPage from "../Pages/Dashboard"
+import ProfilePage from "../Pages/Profile"
+import ChangePasswordPage from "../Pages/ChangePassword"
+import StatementPage from "../Pages/Statement"
+import PassBookPage from "../Pages/Passbook"
+
 export const RoutesPage = [
   { path: "/", component: HomePage, title: "Home" },
   {
@@ -51,5 +58,25 @@ export const RoutesAuth = [
     path: "/reset-password",
     component: ResetPasswordPage,
     title: "Reset Password",
+  },
+]
+
+export const RoutesUser = [
+  { path: "/user/dashboard", component: DashboardPage, title: "Dashboard" },
+  { path: "/user/profile", component: ProfilePage, title: "Profile" },
+  {
+    path: "/user/change-password",
+    component: ChangePasswordPage,
+    title: "Change Password",
+  },
+  {
+    path: "/user/statement",
+    component: StatementPage,
+    title: "Statement",
+  },
+  {
+    path: "/user/passbook",
+    component: PassBookPage,
+    title: "Passbook",
   },
 ]

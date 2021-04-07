@@ -9,7 +9,7 @@ import InputAdornment from "@material-ui/core/InputAdornment"
 import Visibility from "@material-ui/icons/Visibility"
 import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import { useHistory } from "react-router-dom"
-import { NavLink } from "react-router-dom"
+import { NavLink, Link } from "react-router-dom"
 const Button = lazy(() => import("../../../Component/Button"))
 const Breadcrumb = lazy(() => import("../../../Component/Breadcrumb"))
 
@@ -51,7 +51,9 @@ const Index = (props) => {
             <Col lg={5} md={5} sm={8} className="m-auto">
               <div className="login_round">
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                  <img src="./assets/img/logo.png" alt="logo" />
+                  <Link to="/">
+                    <img src="./assets/img/logo.png" alt="logo" />
+                  </Link>
                   <Form.Group controlId="formBasicEmail" className="pt-5">
                     <TextField
                       variant="outlined"

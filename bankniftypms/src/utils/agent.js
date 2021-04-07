@@ -10,7 +10,7 @@ const agent = axios.create({
 })
 
 agent.interceptors.request.use((config) => {
-  const token = localStorage.getItem("authTokenApp")
+  const token = localStorage.getItem("userToken")
   if (!token) {
     return config
   }

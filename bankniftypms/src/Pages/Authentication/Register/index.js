@@ -11,7 +11,7 @@ import Visibility from "@material-ui/icons/Visibility"
 import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import Checkbox from "@material-ui/core/Checkbox"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
-import { NavLink } from "react-router-dom"
+import { NavLink, Link } from "react-router-dom"
 import { useHistory } from "react-router-dom"
 import InputLabel from "@material-ui/core/InputLabel"
 import MenuItem from "@material-ui/core/MenuItem"
@@ -60,7 +60,9 @@ const Index = (props) => {
             <Col lg={5} md={5} sm={8} className="m-auto">
               <div className="login_round">
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                  <img src="./assets/img/logo.png" alt="logo" />
+                  <Link to="/">
+                    <img src="./assets/img/logo.png" alt="logo" />
+                  </Link>
                   <div className="pt-3"></div>
                   <Form.Group controlId="formBasicName">
                     <TextField

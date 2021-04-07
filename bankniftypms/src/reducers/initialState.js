@@ -9,4 +9,8 @@ export default {
   pageData: {},
   userParams: {},
   investmentCapital: [],
+  plan: [],
+  userDashbord: {},
+  statement: [],
+  passbook: [],
 }

@@ -10,12 +10,14 @@ import Visibility from "@material-ui/icons/Visibility"
 import VisibilityOff from "@material-ui/icons/VisibilityOff"
 import Checkbox from "@material-ui/core/Checkbox"
 import FormControlLabel from "@material-ui/core/FormControlLabel"
-import { NavLink } from "react-router-dom"
+import { Link, NavLink } from "react-router-dom"
+import { useHistory } from "react-router-dom"
 const Button = lazy(() => import("../../../Component/Button"))
 const Breadcrumb = lazy(() => import("../../../Component/Breadcrumb"))
 
 const Index = (props) => {
   const dispatch = useDispatch()
+  const { push } = useHistory()
   const { userParams } = useSelector((state) => ({
     userParams: state.userParams,
   }))
@@ -24,7 +26,7 @@ const Index = (props) => {
   })
 
   const onSubmit = (data) => {
-    dispatch(userLoginData(data))
+    dispatch(userLoginData(data, push))
   }
   const [values, setValues] = useState({
     password: false,
@@ -41,7 +43,9 @@ const Index = (props) => {
             <Col lg={5} md={5} sm={8} className="m-auto">
               <div className="login_round">
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                  <img src="./assets/img/logo.png" alt="logo" />
+                  <Link to="/">
+                    <img src="./assets/img/logo.png" alt="logo" />
+                  </Link>
                   <Form.Group controlId="formBasicEmail" className="pt-5">
                     <TextField
                       variant="outlined"

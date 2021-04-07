@@ -10,6 +10,10 @@ import homePageData from "./homePageReducers"
 import pageData from "./pageReducers"
 import userParams from "./userParamsReducer"
 import investmentCapital from "./investmentCapitalReducer"
+import plan from "./planReducer"
+import userDashbord from "./userDashbordReducer"
+import statement from "./statmentReducer"
+import passbook from "./passbookReducer"
 
 const rootReducer = combineReducers({
   isAuth,
@@ -21,6 +25,10 @@ const rootReducer = combineReducers({
   pageData,
   userParams,
   investmentCapital,
+  plan,
+  userDashbord,
+  statement,
+  passbook,
 })
 
 export default function combinedRootReducer(state, action) {

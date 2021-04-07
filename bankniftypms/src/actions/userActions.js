@@ -13,11 +13,15 @@ export function loginDataSuccess(userInfo) {
   return { type: types.LOADED_USER_INFO_SUCCESS, userInfo }
 }
 
+export function loadDashbordDataSuccess(userDashbord) {
+  return { type: types.LOADED_USER_DASHBORD_SUCCESS, userDashbord }
+}
+
 export function loadUserAuth(isAuth) {
   return { type: types.LOADED_USER_AUTH_SUCCESS, isAuth }
 }
 
-export function userLoginData(params) {
+export function userLoginData(params, push) {
   return async (dispatch) => {
     dispatch(submittingRequestStatus(true))
     await agent
@@ -33,6 +37,7 @@ export function userLoginData(params) {
         } else {
           dispatch(ParamsDataSuccess({}))
         }
+        push("/user/dashboard")
       })
       .catch((error) => {
         setToaster(error.message)
@@ -146,6 +151,57 @@ export function resetPassword(params, push) {
         dispatch(submittingRequestStatus(false))
         dispatch(loginDataSuccess({}))
         push("/login")
+      })
+      .catch((error) => {
+        setToaster(error.message)
+        dispatch(submittingRequestStatus(false))
+      })
+  }
+}
+
+export const getDashbord = () => async (dispatch) => {
+  try {
+    const response = await agent.get(API.USER_DASHBORD)
+    dispatch(loadDashbordDataSuccess(response.data.data))
+  } catch (error) {
+    setToaster(error.message)
+  }
+}
+
+export function userUpdateProfile(params) {
+  return async (dispatch) => {
+    dispatch(submittingRequestStatus(true))
+    await agent
+      .post(API.USER_UPDATE_PROFILE, params)
+      .then((response) => {
+        setToaster(response.data.message, "#49BE00")
+        dispatch(submittingRequestStatus(false))
+        dispatch(loginDataSuccess(response.data.data))
+      })
+      .catch((error) => {
+        setToaster(error.message)
+        dispatch(submittingRequestStatus(false))
+      })
+  }
+}
+
+export const getUserProfile = () => async (dispatch) => {
+  try {
+    const response = await agent.get(API.GET_USER_PROFILE_DATA)
+    dispatch(loginDataSuccess(response.data.data))
+  } catch (error) {
+    setToaster(error.message)
+  }
+}
+
+export function updatePasswordData(params) {
+  return async (dispatch) => {
+    dispatch(submittingRequestStatus(true))
+    await agent
+      .post(API.UPDATE_USER_PASSWORD, params)
+      .then((response) => {
+        setToaster(response.data.message, "#49BE00")
+        dispatch(submittingRequestStatus(false))
       })
       .catch((error) => {
         setToaster(error.message)

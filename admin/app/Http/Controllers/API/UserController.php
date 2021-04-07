@@ -128,6 +128,9 @@ class UserController extends BaseController
             $user->email = $request->get('email');
             $user->number = $request->get('number');
             $user->is_kyc = 0;
+            if($request->get('is_kyc')){
+                $user->is_kyc = 1;
+            }
             $user->investmentCapital = $request->get('investmentCapital');
             if ($request->hasFile('image')) {
                 $user->image = $this->upload->image($request->file('image'), $user->image, Constant::USER_IMAGE, Constant::USER_IMAGE_THUMB, Constant::USER_IMAGE_HEIGHT, Constant::USER_IMAGE_WIDTH, true);
@@ -306,7 +309,7 @@ class UserController extends BaseController
              
             $statement = $this->statement->where('user_id',$user->id)->orderBy('id', 'desc')->get();
             $chg = Statement::where('user_id',$user->id)->where('is_move',0)->sum('chg');
-
+            $totalHolding = $this->order->where('user_id',$user->id)->where('is_move',0)->where('is_pms',1)->count();
             $data['banner'] = BannerResource::collection($banner);
             $data['walletAmount'] = Helper::__numberFormat($amount);
             $data['totalInvested'] = Helper::__numberFormat($totalInvested);
@@ -317,6 +320,7 @@ class UserController extends BaseController
             $data['totalStartPms'] = $this->order->where('user_id',$user->id)->where('is_pms',1)->count();
             $data['totalStopPms'] = $this->order->where('user_id',$user->id)->where('is_pms',0)->count();
             $data['statement'] = StatementResource::collection($statement);
+            $data['totalHolding'] = $totalHolding;
              
             return $this->sendResponse($data, 'Data was retrieved successfully.');
         }catch (Exception $ex) {

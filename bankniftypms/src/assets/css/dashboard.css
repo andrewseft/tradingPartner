@@ -160,7 +160,7 @@ h6 {
     max-height: 2rem;
 }
 .dashboard_header .dasheader_right .dropdown-menu {
-    min-width: 12rem;
+    min-width: 14rem;
     position: absolute;
     background-color: #fff;
     left: inherit;
@@ -237,14 +237,14 @@ h6 {
 {
 	position: relative;
 }
-.wallet_content_main::after {
+.dashbaord_wallet_inner::after {
     content: "";
     position: absolute;
     width: 1px;
     height: 73px;
-	background-color: #0b131312;
-    right: 35px;
-    top: 0px;
+    background-color: #0b131312;
+    right: 40px;
+    top: 2rem;
 }
 .sidebar_overlay {
     width: 100%;
@@ -438,3 +438,17 @@ h6 {
     }
 }
 /* dashbaord_media */
+
+ul {
+    margin: 0;
+  }
+  
+  .dropzone {
+    text-align: center;
+    padding: 20px;
+    border: 3px dashed #eeeeee;
+    background-color: #fafafa;
+    color: #bdbdbd;
+  
+    margin-bottom: 20px;
+  }

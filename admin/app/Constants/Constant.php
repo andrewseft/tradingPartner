@@ -12,8 +12,8 @@ class Constant
     const REDIRECT_LOGIN = '/admin/login';
     const GUARD = 'admin';
 
-    const NO_IMAGE_USER = 'user.png';
-
+    const NO_IMAGE_USER = 'img/user.png';
+    const NO_IMAGE_BANNER = 'img/user.png';
     
 
     

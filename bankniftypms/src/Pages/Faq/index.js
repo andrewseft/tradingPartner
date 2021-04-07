@@ -1,20 +1,21 @@
 import React, { useEffect, lazy } from "react"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import * as homePageActions from "../../actions/homePageActions"
-
+import { useSelector, useDispatch } from "react-redux"
+import { loadHomePageData } from "../../actions/homePageActions"
 const Faq = lazy(() => import("../../Component/Page/faq"))
 const Breadcrumb = lazy(() => import("../../Component/Breadcrumb"))
 
 const Index = (props) => {
-  const { actions, homePageData } = props
+  const dispatch = useDispatch()
+  const { homePageData } = useSelector((state) => ({
+    homePageData: state.homePageData,
+  }))
 
   useEffect(() => {
     const fetchData = () => {
-      actions.loadHomePageData("index")
+      dispatch(loadHomePageData("index"))
     }
     fetchData()
-  }, [actions])
+  }, [dispatch])
 
   return (
     <div className="pt-5">
@@ -24,16 +25,4 @@ const Index = (props) => {
   )
 }
 
-function mapStateToProps(state) {
-  return {
-    homePageData: state.homePageData,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    actions: bindActionCreators(Object.assign(homePageActions), dispatch),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Index)
+export default Index
