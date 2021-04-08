@@ -17,6 +17,9 @@ import ProfilePage from "../Pages/Profile"
 import ChangePasswordPage from "../Pages/ChangePassword"
 import StatementPage from "../Pages/Statement"
 import PassBookPage from "../Pages/Passbook"
+import WalletPage from "../Pages/Wallet"
+import NotificationPage from "../Pages/Notification"
+import OrderPage from "../Pages/Order"
 
 export const RoutesPage = [
   { path: "/", component: HomePage, title: "Home" },
@@ -78,5 +81,20 @@ export const RoutesUser = [
     path: "/user/passbook",
     component: PassBookPage,
     title: "Passbook",
+  },
+  {
+    path: "/user/notification",
+    component: NotificationPage,
+    title: "Notification",
+  },
+  {
+    path: "/user/wallet",
+    component: WalletPage,
+    title: "Wallet",
+  },
+  {
+    path: "/user/order",
+    component: OrderPage,
+    title: "Order",
   },
 ]

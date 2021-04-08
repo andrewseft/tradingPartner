@@ -25,7 +25,6 @@ const Index = (props) => {
   const [capital, setInvestmentCapital] = useState(userInfo.investmentCapital)
   const [selectedFile, setSelectedFile] = useState(null)
   const [imageView, setSelectedImage] = useState(userInfo.adahr_card_image)
-
   const [selectedPanFile, setSelectedPanFile] = useState(null)
   const [imagePanView, setSelectedPanImage] = useState(userInfo.pan_cart_image)
 

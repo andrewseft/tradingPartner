@@ -13,4 +13,7 @@ export default {
   userDashbord: {},
   statement: [],
   passbook: [],
+  notification: [],
+  order: [],
+  walletAmount: 0,
 }

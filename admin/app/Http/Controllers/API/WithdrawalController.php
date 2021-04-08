@@ -105,7 +105,13 @@ class WithdrawalController extends BaseController
             $ACCOUNT_STATUS = trans('message.WITHDRAWAL_STATUS');
             $meassge = trans('message.USER_WITHDRAWAL_REQUEST',['NAME'=>ucfirst($user->first_name),'AMOUNT'=>number_format($request->amount,2)]);
             $this->notification->send($adminUser,route('admin.withdrawal'),$ACCOUNT_STATUS,$meassge);
-            return $this->sendResponse(true, 'Your withdrawal request has been successfully submitted');
+
+            $walletData = $this->wallet->where('user_id',$user->id)->orderBy('id', 'desc')->first();
+            $amount = 0;
+            if($walletData){
+              $amount =  $walletData->closing_bal; 
+            }
+            return $this->sendResponse($amount, 'Your withdrawal request has been successfully submitted');
 
         }catch (Exception $ex) {
             return $this->sendError($ex->getMessage(),JsonResponse::HTTP_INTERNAL_SERVER_ERROR);

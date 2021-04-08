@@ -1098,3 +1098,6 @@ input, textarea, select, label, p, span{
     height: 100%;
     z-index: 2;
 }
+.button_link{
+	cursor: pointer;
+}

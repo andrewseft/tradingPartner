@@ -107,7 +107,7 @@ class WalletController extends BaseController
             $ACCOUNT_STATUS = trans('message.WALLET_STATUS');
             $meassge = trans('message.USER_WALLET_AMOUNT',['NAME'=>ucfirst($user->first_name),'AMOUNT'=>number_format($request->amount,2)]);
             $this->notification->send($adminUser,route('admin.customer'),$ACCOUNT_STATUS,$meassge);
-            return $this->sendResponse(number_format($request->amount + $amount,2), 'Data was retrieved successfully.');
+            return $this->sendResponse(number_format($request->amount + $amount,2), 'Your amount has been successfully submitted to your wallet.');
         }catch (Exception $ex) {
             return $this->sendError($ex->getMessage(),JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
         }

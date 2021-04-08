@@ -15,6 +15,10 @@ export function loadPassbookDataSuccess(passbook) {
   return { type: types.PASSBOOK_DATA_SUCCESS, passbook }
 }
 
+export function loadNotificationDataSuccess(notification) {
+  return { type: types.NOTIFICATION_DATA_SUCCESS, notification }
+}
+
 export const getPlanData = () => async (dispatch) => {
   try {
     dispatch(toggleNetworkRequestStatus(true))
@@ -43,6 +47,28 @@ export const getPassbookData = () => async (dispatch) => {
     const response = await agent.get(API.GET_PASSBOOK)
     dispatch(toggleNetworkRequestStatus(false))
     dispatch(loadPassbookDataSuccess(response.data.data))
+  } catch (error) {
+    dispatch(toggleNetworkRequestStatus(false))
+  }
+}
+
+export const getNotificationData = () => async (dispatch) => {
+  try {
+    dispatch(toggleNetworkRequestStatus(true))
+    const response = await agent.get(API.GET_NOTIFICATION)
+    dispatch(toggleNetworkRequestStatus(false))
+    dispatch(loadNotificationDataSuccess(response.data.data))
+  } catch (error) {
+    dispatch(toggleNetworkRequestStatus(false))
+  }
+}
+
+export const clearNotification = () => async (dispatch) => {
+  try {
+    dispatch(toggleNetworkRequestStatus(true))
+    await agent.get(API.REMOVE_ALL_NOTIFICATION)
+    dispatch(toggleNetworkRequestStatus(false))
+    dispatch(loadNotificationDataSuccess([]))
   } catch (error) {
     dispatch(toggleNetworkRequestStatus(false))
   }
