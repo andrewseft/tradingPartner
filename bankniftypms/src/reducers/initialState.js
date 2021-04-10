@@ -15,5 +15,7 @@ export default {
   passbook: [],
   notification: [],
   order: [],
+  holding: [],
+  holdingList: {},
   walletAmount: 0,
 }

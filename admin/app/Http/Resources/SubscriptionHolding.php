@@ -30,12 +30,13 @@ class SubscriptionHolding extends JsonResource
                 'plan_id'=>$this->plan_id,
                 'qty' => number_format($this->qty,2,'.', ''),
                 'avg' => $this->plan->amount,
-                'title' => number_format($this->amount,2,'.', ''),
+                'title' => ucfirst($this->plan->title),
                 'invested' => number_format($this->amount,2),
                 'price' => $this->plan->closing_balance >= 0 ?number_format($this->plan->closing_balance + $this->plan->amount,2):number_format($this->plan->closing_balance + $this->plan->amount,2),
                 'pricePercentage' => $this->plan->closing_balance >= 0 ?'+'.number_format(($this->plan->closing_balance/$this->plan->amount) * 100,2).'%':number_format(($this->plan->closing_balance/$this->plan->amount) * 100,2).'%',
                 "profitPercentage" => $profitPercentage,
                 'profit' => $this->amount <= $realised_profit || $realised_profit == 0 ? '+'.number_format($realised_profit,2) :number_format($realised_profit,2),
+                "color" => $this->amount <= $realised_profit || $realised_profit == 0 ? true : false
                 
             ];
         }else{
@@ -57,6 +58,7 @@ class SubscriptionHolding extends JsonResource
                 'profit' => $this->amount <= $realised_profit || $realised_profit == 0 ? '+'.number_format($realised_profit,2) :number_format($realised_profit,2),
                 'pricePercentage' => $this->plan->closing_balance >= 0 ?'+'.number_format(($this->plan->closing_balance/$this->plan->amount) * 100,2).'%':number_format(($this->plan->closing_balance/$this->plan->amount) * 100,2).'%',
                 "profitPercentage" => $profitPercentage,
+                "color" => $this->amount <= $realised_profit || $realised_profit == 0 ? true : false,
                 
             ];
         }

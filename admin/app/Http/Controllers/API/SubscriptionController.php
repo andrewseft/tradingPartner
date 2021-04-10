@@ -367,9 +367,22 @@ class SubscriptionController extends BaseController
             $query = $this->order->where('user_id',$user->id)->with(['plan'])->with('statement')->where('is_move',0)->where('is_pms',1)->sortable()->orderBy('id', 'desc');
             $totalPl = $this->statement->where('user_id',$user->id)->where('is_move',0)->sum('pl');
 
-            if ($request->query('keyword')) {
-                $name = $request->query('keyword');
-                $query->where('title', 'LIKE', '%' . $name . '%');
+            if ($request->get('keyword')) {
+                $keyword = $request->get('keyword');
+                $query->whereHas('plan', function ($q) use ($keyword) {
+                    $q->where('title', 'LIKE', '%' . $keyword . '%');
+                });
+            }
+            if ($request->query('from') && $request->get('to')) {
+                $from_date = Carbon::createFromFormat('Y-m-d', $request->get('from'))->format('Y-m-d').' 00:00:00';
+                $end_date = Carbon::createFromFormat('Y-m-d', $request->get('to'))->format('Y-m-d').' 23:59:59';
+                $query->whereBetween('created_at', array($from_date, $end_date));
+            } else if ($request->get('from')) {
+                $date = Carbon::createFromFormat('Y-m-d', $request->get('from'))->format('Y-m-d').' 00:00:00';
+                $query->whereDate('created_at', '=', $date);
+            } else if ($request->get('to')) {
+                $date = Carbon::createFromFormat('Y-m-d', $request->get('to'))->format('Y-m-d').' 00:00:00';
+                $query->whereDate('created_at', '=', $date);
             }
             $result = $query->paginate($this->limit);
             $totalInvested = 0;
@@ -392,6 +405,7 @@ class SubscriptionController extends BaseController
             $resultData['currentInvested'] = $totalInvested <= $totalPl || $totalPl == 0 ? '+'.number_format($totalInvested + $currentInvested,2) :number_format($totalInvested + $currentInvested,2);
             $resultData['PL'] = $totalInvested <= $totalPl || $totalPl == 0 ? '+'.number_format($totalPl,2) :number_format($totalPl,2);
             $resultData['charges'] = $charges >= 0 ?"+".$charges.'%':$charges.'%';
+            $resultData['color'] = $charges >= 0 ?true:false;
             $resultData['data'] = $this->__paginate(SubscriptionHoldingResource::collection($result),$result);
            
             return $this->sendResponse($resultData, __('Data was retrieved successfully.'));

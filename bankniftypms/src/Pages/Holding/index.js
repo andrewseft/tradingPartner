@@ -1,7 +1,7 @@
 import React, { lazy, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { NavLink } from "react-router-dom"
-import { getOrderData } from "../../actions/orderActions"
+import { getHoldingData } from "../../actions/orderActions"
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers"
 import DateRangeIcon from "@material-ui/icons/DateRange"
 import HighlightOffIcon from "@material-ui/icons/HighlightOff"
@@ -27,8 +27,9 @@ const Index = (props) => {
   const [fromDate, handleFromDateChange] = useState(null)
   const [toDate, handleToDateChange] = useState(null)
   const [keyword, setKeyword] = useState("")
-  const { order } = useSelector((state) => ({
-    order: state.order,
+  const { holding, holdingList } = useSelector((state) => ({
+    holding: state.holding,
+    holdingList: state.holdingList,
   }))
   useEffect(() => {
     const fetchData = () => {
@@ -48,7 +49,7 @@ const Index = (props) => {
         request.to = to
       }
 
-      dispatch(getOrderData(request))
+      dispatch(getHoldingData(request))
     }
     fetchData()
   }, [dispatch, location])
@@ -155,7 +156,7 @@ const Index = (props) => {
       setToaster("Please select any search criteria to search the records.")
     } else {
       history.push({
-        pathname: "/user/order",
+        pathname: "/user/holdings",
         search: "?" + requestData,
       })
     }
@@ -165,7 +166,7 @@ const Index = (props) => {
     handleFromDateChange(null)
     handleToDateChange(null)
     setKeyword("")
-    history.push(`/user/order`)
+    history.push(`/user/holdings`)
   }
 
   return (
@@ -176,7 +177,7 @@ const Index = (props) => {
           <Col>
             <Card>
               <Card.Header>
-                <Card.Title>Orders</Card.Title>
+                <Card.Title>Holdings({holding.length})</Card.Title>
               </Card.Header>
               <Card.Body>
                 <Form onSubmit={handleSubmit(onSubmit)}>
@@ -185,7 +186,7 @@ const Index = (props) => {
                       <TextField
                         className="w-100"
                         id="outlined-basic"
-                        label="Search by product"
+                        label="Search by instrument"
                         variant="outlined"
                         size={"small"}
                         name="keyword"
@@ -269,49 +270,31 @@ const Index = (props) => {
           </Col>
 
           <Col lg={12} className="mt-md-4">
-            {order.length > 0 ? (
+            {holding.length > 0 ? (
               <Table striped bordered hover>
                 <thead>
                   <tr>
-                    <th scope="col" className="inst">
-                      Time
-                    </th>
-                    <th scope="col">Type</th>
                     <th scope="col">Instrument</th>
-                    <th scope="col">Product</th>
                     <th scope="col">Qty</th>
-                    <th scope="col">Avg Price</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Status</th>
+                    <th scope="col">Avg</th>
+                    <th scope="col">LTP</th>
+                    <th scope="col">Cur.val</th>
+                    <th scope="col">P&L</th>
+                    <th scope="col">Net chg</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {order.map((item, key) => (
+                  {holding.map((item, key) => (
                     <tr key={key}>
-                      <td>{item.date}</td>
-                      {item.pmsStatus === "START" ? (
-                        <td>
-                          <span className="rounded p-1 bg-success text-white">
-                            {item.pmsStatus}
-                          </span>
-                        </td>
-                      ) : (
-                        <td>
-                          <span className="rounded p-1 bg-danger text-white">
-                            {item.pmsStatus}
-                          </span>
-                        </td>
-                      )}
-                      <td>{item.remark}</td>
-                      <td>{item.plan}</td>
+                      <td>{item.title}</td>
                       <td>{item.qty}</td>
                       <td>{item.avg}</td>
-                      <td>{item.subscription}</td>
+                      <td>{item.invested}</td>
                       <td>
-                        <span className="rounded p-1 bg-success text-white">
-                          {item.status}
-                        </span>
+                        {item.price}({item.pricePercentage})
                       </td>
+                      <td>{item.profit}</td>
+                      <td>{item.profitPercentage}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -348,6 +331,58 @@ const Index = (props) => {
               </div>
             )}
           </Col>
+          {holding.length > 0 && (
+            <Col lg={10} className="mt-md-3">
+              <div className="dashbaord_wallet_inner">
+                <div className="d-flex justify-content-between mt-2 mt-md-4">
+                  <div className="wallet_content_main w-100">
+                    <div className="wallet_counter d-flex align-items-baseline">
+                      <span className="">{holdingList.totalInvested}</span>
+                    </div>
+
+                    <div className="label_wallet">
+                      <span>Total investment</span>
+                    </div>
+                  </div>
+
+                  <div className="wallet_content_main w-100">
+                    <div className="wallet_counter d-flex align-items-baseline">
+                      <span className="">{holdingList.currentInvested}</span>
+                    </div>
+
+                    <div className="label_wallet">
+                      <span>Current value</span>
+                    </div>
+                  </div>
+
+                  <div className="wallet_content_main w-100">
+                    <div className="wallet_counter d-flex align-items-baseline">
+                      <span
+                        className={
+                          holdingList.color ? "text-success" : "text-danger"
+                        }
+                      >
+                        {holdingList.PL}
+                      </span>
+                      <p
+                        className={
+                          holdingList.color
+                            ? "text-success ml-2"
+                            : "text-danger ml-2"
+                        }
+                      >
+                        ({holdingList.charges})
+                      </p>
+                    </div>
+
+                    <div className="label_wallet">
+                      <span>Profit Loss</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+          )}
         </Row>
       </section>
     </>

@@ -17,6 +17,8 @@ import passbook from "./passbookReducer"
 import notification from "./notificationReducer"
 import walletAmount from "./amountReducers"
 import order from "./orderReducer"
+import holding from "./holdingReducer"
+import holdingList from "./holdingListReducer"
 
 const rootReducer = combineReducers({
   isAuth,
@@ -35,6 +37,8 @@ const rootReducer = combineReducers({
   notification,
   walletAmount,
   order,
+  holding,
+  holdingList,
 })
 
 export default function combinedRootReducer(state, action) {

@@ -330,11 +330,25 @@ class OrderController extends BaseController
         try {
             $user = Auth::user();
             $query = $this->order->where('user_id',$user->id)->with(['plan'])->where('is_move',0)->sortable()->orderBy('id', 'desc');
-            if ($request->query('keyword')) {
-                $name = $request->query('keyword');
-                $query->where('title', 'LIKE', '%' . $name . '%');
+            if ($request->get('keyword')) {
+                $keyword = $request->get('keyword');
+                $query->whereHas('plan', function ($q) use ($keyword) {
+                    $q->where('title', 'LIKE', '%' . $keyword . '%');
+                });
+            }
+            if ($request->query('from') && $request->get('to')) {
+                $from_date = Carbon::createFromFormat('Y-m-d', $request->get('from'))->format('Y-m-d').' 00:00:00';
+                $end_date = Carbon::createFromFormat('Y-m-d', $request->get('to'))->format('Y-m-d').' 23:59:59';
+                $query->whereBetween('created_at', array($from_date, $end_date));
+            } else if ($request->get('from')) {
+                $date = Carbon::createFromFormat('Y-m-d', $request->get('from'))->format('Y-m-d').' 00:00:00';
+                $query->whereDate('created_at', '=', $date);
+            } else if ($request->get('to')) {
+                $date = Carbon::createFromFormat('Y-m-d', $request->get('to'))->format('Y-m-d').' 00:00:00';
+                $query->whereDate('created_at', '=', $date);
             }
             $result = $query->paginate($this->limit);
+            
             return $this->sendResponse(($this->__paginate(OrderResource::collection($result), $result)), __('Data was retrieved successfully.'));
         }catch (Exception $ex) {
             return $this->sendError($ex->getMessage(),JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
