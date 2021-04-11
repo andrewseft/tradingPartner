@@ -37,3 +37,15 @@ export const getHoldingData = (request) => async (dispatch) => {
     dispatch(toggleNetworkRequestStatus(false))
   }
 }
+
+export const getPositionData = (request) => async (dispatch) => {
+  try {
+    dispatch(toggleNetworkRequestStatus(true))
+    const response = await agent.post(API.POSITION_LIST, request)
+    dispatch(toggleNetworkRequestStatus(false))
+    dispatch(loadHoldingListDataSuccess(response.data.data))
+    dispatch(loadHoldingDataSuccess(response.data.data.data.data))
+  } catch (error) {
+    dispatch(toggleNetworkRequestStatus(false))
+  }
+}

@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware'=>'minifier'], function(){
 
-    Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
+    
         Route::get('logout', 'Auth\LoginController@logout')->name('admin.logout');
         Route::any('/', function () {
             return redirect(route('admin.login'));
         });
-    });
-    Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => ['guest:admin']], function () {
+   
+    Route::group(['middleware' => ['guest:admin']], function () {
         Route::get('login', 'Auth\LoginController@login')->name('admin.login');
         Route::post('login', 'Auth\LoginController@dologin')->name('admin.login');
         Route::get('forgot-password', 'Auth\ForgotPasswordController@forgotPassword')->name('admin.forgotPassword');
@@ -30,7 +30,7 @@ Route::group(['middleware'=>'minifier'], function(){
         Route::post('reset-password/{token}', 'Auth\ResetPasswordController@doresetPassword')->name('admin.resetPassword');
     });
 
-    Route::group(['prefix' => 'admin', 'middleware' => ['auth:admin'], 'namespace' => 'Admin'], function () {
+    Route::group([  'middleware' => ['auth:admin']], function () {
         Route::group(['middleware' => 'prevent-back-history'], function () {
 
             /**

@@ -30,10 +30,10 @@ export const getPlanData = () => async (dispatch) => {
   }
 }
 
-export const getStatementData = () => async (dispatch) => {
+export const getStatementData = (request) => async (dispatch) => {
   try {
     dispatch(toggleNetworkRequestStatus(true))
-    const response = await agent.post(API.GET_STATEMENT)
+    const response = await agent.post(API.GET_STATEMENT, request)
     dispatch(toggleNetworkRequestStatus(false))
     dispatch(loadStatementDataSuccess(response.data.data))
   } catch (error) {
@@ -69,6 +69,17 @@ export const clearNotification = () => async (dispatch) => {
     await agent.get(API.REMOVE_ALL_NOTIFICATION)
     dispatch(toggleNetworkRequestStatus(false))
     dispatch(loadNotificationDataSuccess([]))
+  } catch (error) {
+    dispatch(toggleNetworkRequestStatus(false))
+  }
+}
+
+export const getStatementLinkData = (request) => async (dispatch) => {
+  try {
+    dispatch(toggleNetworkRequestStatus(true))
+    const response = await agent.post(API.GET_STATEMENT_LINK, request)
+    dispatch(toggleNetworkRequestStatus(false))
+    window.open(response.data.data, "_blank")
   } catch (error) {
     dispatch(toggleNetworkRequestStatus(false))
   }

@@ -1,11 +1,7 @@
-import React, { lazy, useState, useEffect } from "react"
-import { Row, Col, Table, Card, Form } from "react-bootstrap"
+import React, { lazy, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { NavLink } from "react-router-dom"
-import {
-  getStatementData,
-  getStatementLinkData,
-} from "../../actions/planActions"
+import { getPositionData } from "../../actions/orderActions"
 import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers"
 import DateRangeIcon from "@material-ui/icons/DateRange"
 import HighlightOffIcon from "@material-ui/icons/HighlightOff"
@@ -18,11 +14,11 @@ import SearchIcon from "@material-ui/icons/Search"
 import RefreshIcon from "@material-ui/icons/Refresh"
 import IconButton from "@material-ui/core/IconButton"
 import InputAdornment from "@material-ui/core/InputAdornment"
-import GetAppIcon from "@material-ui/icons/GetApp"
+import { Row, Col, Card, Form, Table } from "react-bootstrap"
 import { setToaster } from "../../utils/helpers"
 import { useLocation, useHistory } from "react-router-dom"
-const queryString = require("query-string")
 const Breadcrumb = lazy(() => import("../../Component/Breadcrumb"))
+const queryString = require("query-string")
 
 const Index = (props) => {
   const dispatch = useDispatch()
@@ -30,26 +26,50 @@ const Index = (props) => {
   const history = useHistory()
   const [fromDate, handleFromDateChange] = useState(null)
   const [toDate, handleToDateChange] = useState(null)
-  const { statement } = useSelector((state) => ({
-    statement: state.statement,
+  const [keyword, setKeyword] = useState("")
+  const { holding, holdingList } = useSelector((state) => ({
+    holding: state.holding,
+    holdingList: state.holdingList,
   }))
   useEffect(() => {
     const fetchData = () => {
       const params = new URLSearchParams(location.search)
       const queryStringParsed = queryString.parse(location.search)
       const request = {}
-      if (params.get("start_date")) {
-        var from = queryStringParsed["start_date"]
-        request.start_date = from
+      if (params.get("keyword")) {
+        var keyword = queryStringParsed["keyword"]
+        request.keyword = keyword
       }
-      if (params.get("end_date")) {
-        var to = queryStringParsed["end_date"]
-        request.end_date = to
+      if (params.get("from")) {
+        var from = queryStringParsed["from"]
+        request.from = from
       }
-      dispatch(getStatementData(request))
+      if (params.get("to")) {
+        var to = queryStringParsed["to"]
+        request.to = to
+      }
+
+      dispatch(getPositionData(request))
     }
     fetchData()
   }, [dispatch, location])
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const queryStringParsed = queryString.parse(location.search)
+    if (params.get("keyword")) {
+      var keyword = queryStringParsed["keyword"]
+      setKeyword(keyword)
+    }
+    if (params.get("from")) {
+      var from = queryStringParsed["from"]
+      handleFromDateChange(from)
+    }
+    if (params.get("to")) {
+      var to = queryStringParsed["to"]
+      handleToDateChange(to)
+    }
+  }, [location])
 
   const renderInputFromDate = (props) => (
     <TextField
@@ -118,68 +138,62 @@ const Index = (props) => {
   const onSubmit = () => {
     const requestData = new URLSearchParams(location.search)
     const params = {}
+    if (keyword) {
+      requestData.set("keyword", keyword)
+      params.keyword = keyword
+    }
     if (fromDate) {
-      requestData.set("start_date", fromDate)
-      params.start_date = fromDate
+      requestData.set("from", fromDate)
+      params.from = fromDate
     }
     if (toDate) {
-      requestData.set("end_date", toDate)
-      params.end_date = toDate
+      requestData.set("to", toDate)
+      params.to = toDate
     }
     var size = Object.keys(params).length
     if (size === 0) {
       setToaster("Please select any search criteria to search the records.")
     } else {
       history.push({
-        pathname: "/user/statement",
+        pathname: "/user/positions",
         search: "?" + requestData,
       })
     }
   }
+
   const handleClickFilter = () => {
     handleFromDateChange(null)
     handleToDateChange(null)
-    history.push(`/user/statement`)
+    setKeyword("")
+    history.push(`/user/positions`)
   }
-
-  const handleClickDownload = () => {
-    const requestData = new URLSearchParams(location.search)
-    if (fromDate) {
-      requestData.set("start_date", fromDate)
-    }
-    if (toDate) {
-      requestData.set("end_date", toDate)
-    }
-    dispatch(getStatementLinkData(requestData))
-  }
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search)
-    const queryStringParsed = queryString.parse(location.search)
-    if (params.get("from")) {
-      var from = queryStringParsed["from"]
-      handleFromDateChange(from)
-    }
-    if (params.get("to")) {
-      var to = queryStringParsed["to"]
-      handleToDateChange(to)
-    }
-  }, [location])
 
   return (
     <>
       <Breadcrumb {...props} />
       <section className="dashboard_content_main dashbaord_home_dashboard">
         <Row className="m-0 p-0">
-          <Col lg={12} className="">
+          <Col>
             <Card>
               <Card.Header>
-                <Card.Title>Statement</Card.Title>
+                <Card.Title>Positions({holding.length})</Card.Title>
               </Card.Header>
               <Card.Body>
                 <Form onSubmit={handleSubmit(onSubmit)}>
                   <Row className="dashboard_row_change">
-                    <Col md={3} className="mb-2">
+                    <Col md={4} className="mb-2">
+                      <TextField
+                        className="w-100"
+                        id="outlined-basic"
+                        label="Search by plan"
+                        variant="outlined"
+                        size={"small"}
+                        name="keyword"
+                        value={keyword}
+                        onChange={(event) => setKeyword(event.target.value)}
+                      />
+                    </Col>
+                    <Col md={4} className="mb-2">
                       <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <DatePicker
                           autoOk
@@ -203,7 +217,7 @@ const Index = (props) => {
                         />
                       </MuiPickersUtilsProvider>
                     </Col>
-                    <Col md={3} className="mb-2">
+                    <Col md={4} className="mb-2">
                       <MuiPickersUtilsProvider utils={DateFnsUtils}>
                         <DatePicker
                           autoOk
@@ -227,73 +241,75 @@ const Index = (props) => {
                         />
                       </MuiPickersUtilsProvider>
                     </Col>
-                    <Col md={6} className="mb-2">
-                      <Button
-                        variant="contained"
-                        color="default"
-                        className="mr-3"
-                        type="submit"
-                        startIcon={<SearchIcon />}
-                      >
-                        Search
-                      </Button>
-
-                      <Button
-                        variant="contained"
-                        color="secondary"
-                        className="mr-3"
-                        startIcon={<RefreshIcon />}
-                        onClick={() => handleClickFilter()}
-                      >
-                        Reset
-                      </Button>
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        startIcon={<GetAppIcon />}
-                        onClick={handleClickDownload}
-                      >
-                        Excel
-                      </Button>
-                    </Col>
                   </Row>
+
+                  <div className="mt-3">
+                    <Button
+                      variant="contained"
+                      color="default"
+                      className="mr-3"
+                      type="submit"
+                      startIcon={<SearchIcon />}
+                    >
+                      Search
+                    </Button>
+
+                    <Button
+                      variant="contained"
+                      color="secondary"
+                      startIcon={<RefreshIcon />}
+                      onClick={() => handleClickFilter()}
+                    >
+                      Reset
+                    </Button>
+                  </div>
                 </Form>
               </Card.Body>
             </Card>
           </Col>
 
           <Col lg={12} className="mt-md-4">
-            {statement.length > 0 ? (
+            {holding.length > 0 ? (
               <Table striped bordered hover>
                 <thead>
                   <tr>
-                    <th scope="col" className="inst">
-                      Date
-                    </th>
-                    <th scope="col">Invested</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Plan</th>
+                    <th scope="col">Qty</th>
+                    <th scope="col">Avg</th>
                     <th scope="col">P&L</th>
-                    <th scope="col">%Chg</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {statement.map((item, key) => (
-                    <tr key={key}>
-                      <td>{item.date}</td>
-                      <td>{item.capital}</td>
-                      <td
-                        className={item.color ? "text-success" : "text-danger"}
-                      >
-                        {item.pl}
-                      </td>
-                      <td
-                        className={item.color ? "text-success" : "text-danger"}
-                      >
-                        {item.chg}
-                      </td>
-                    </tr>
-                  ))}
+                  {holding.map(
+                    (item, key) =>
+                      item && (
+                        <tr key={key}>
+                          <td>
+                            {item.category &&
+                              item.category.map((tag, key) => (
+                                <span key={key}>{tag.title}</span>
+                              ))}
+                          </td>
+                          <td>{item.title}</td>
+                          <td>{item.qty}</td>
+                          <td>{item.currentAmount}</td>
+                          <td>{item.totalAmount}</td>
+                        </tr>
+                      )
+                  )}
                 </tbody>
               </Table>
+            ) : keyword || fromDate || toDate ? (
+              <div className="text-center pt-5">
+                <img
+                  src="../assets/img/orderbook.svg"
+                  key={1}
+                  alt="no_image"
+                  width="150"
+                />
+                <div className="pt-3">Sorry we have't found any order</div>
+              </div>
             ) : (
               <div className="text-center pt-5">
                 <img
@@ -302,7 +318,7 @@ const Index = (props) => {
                   alt="no_image"
                   width="150"
                 />
-                <div className="pt-3">You haven't placed any orders</div>
+                <div className="pt-3">You haven't placed any orders today</div>
                 <div className="py-3 login-btn">
                   <NavLink
                     to="/user/dashboard"
@@ -310,12 +326,42 @@ const Index = (props) => {
                     exact
                     className="btn py-1"
                   >
-                    Dashboard
+                    Get started
                   </NavLink>
                 </div>
               </div>
             )}
           </Col>
+          {holding.length > 0 && (
+            <Col lg={10} className="mt-md-3">
+              <div className="dashbaord_wallet_inner">
+                <div className="d-flex justify-content-between mt-2 mt-md-4">
+                  <div className="wallet_content_main w-100">
+                    <div className="wallet_counter d-flex align-items-baseline">
+                      <span
+                        className={
+                          holdingList.color ? "text-success" : "text-danger"
+                        }
+                      >
+                        {holdingList.totalPl}
+                      </span>
+                      <p
+                        className={
+                          holdingList.color
+                            ? "text-success ml-2"
+                            : "text-danger ml-2"
+                        }
+                      ></p>
+                    </div>
+
+                    <div className="label_wallet">
+                      <span>Total Profit Loss</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Col>
+          )}
         </Row>
       </section>
     </>

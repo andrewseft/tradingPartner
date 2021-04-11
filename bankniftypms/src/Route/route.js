@@ -21,6 +21,7 @@ import WalletPage from "../Pages/Wallet"
 import NotificationPage from "../Pages/Notification"
 import OrderPage from "../Pages/Order"
 import HoldingPage from "../Pages/Holding"
+import PositionsPage from "../Pages/Positions"
 
 export const RoutesPage = [
   { path: "/", component: HomePage, title: "Home" },
@@ -102,5 +103,10 @@ export const RoutesUser = [
     path: "/user/holdings",
     component: HoldingPage,
     title: "Holding",
+  },
+  {
+    path: "/user/positions",
+    component: PositionsPage,
+    title: "Positions",
   },
 ]

@@ -20,7 +20,7 @@ class Statement extends JsonResource
             'capital'=>Helper::__numberFormat($this->invested),
             'pl'=>$this->pl >= 0 ? '+'.Helper::__numberFormat($this->pl) : Helper::__numberFormat($this->pl),
             'chg'=>$this->chg >= 0 ? '+'.Helper::__numberFormat($this->chg).'%' : Helper::__numberFormat($this->chg).'%',
-            'color' => $this->pl > 0 ? true: false
+            'color' => $this->pl >= 0 ? true: false
         ];
     }
 }

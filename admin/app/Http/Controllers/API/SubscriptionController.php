@@ -422,15 +422,29 @@ class SubscriptionController extends BaseController
         try {
             $user = Auth::user();
             $query = $this->order->where('user_id',$user->id)->with(['plan','planlogs'])->where('is_move',0)->where('is_pms',1)->sortable()->orderBy('id', 'desc');
-            if ($request->query('keyword')) {
-                $name = $request->query('keyword');
-                $query->where('title', 'LIKE', '%' . $name . '%');
+            if ($request->get('keyword')) {
+                $keyword = $request->get('keyword');
+                $query->whereHas('plan', function ($q) use ($keyword) {
+                    $q->where('title', 'LIKE', '%' . $keyword . '%');
+                });
+            }
+            if ($request->query('from') && $request->get('to')) {
+                $from_date = Carbon::createFromFormat('Y-m-d', $request->get('from'))->format('Y-m-d').' 00:00:00';
+                $end_date = Carbon::createFromFormat('Y-m-d', $request->get('to'))->format('Y-m-d').' 23:59:59';
+                $query->whereBetween('created_at', array($from_date, $end_date));
+            } else if ($request->get('from')) {
+                $date = Carbon::createFromFormat('Y-m-d', $request->get('from'))->format('Y-m-d').' 00:00:00';
+                $query->whereDate('created_at', '=', $date);
+            } else if ($request->get('to')) {
+                $date = Carbon::createFromFormat('Y-m-d', $request->get('to'))->format('Y-m-d').' 00:00:00';
+                $query->whereDate('created_at', '=', $date);
             }
             $result = $query->paginate($this->limit);
             $totalPl = Statement::where('user_id',$user->id)->where('is_move',0)->sum('pl');
             $totalInvested = Statement::where('user_id',$user->id)->where('is_move',0)->sum('invested');
             
             $resultData['totalPl'] = $totalInvested <= $totalPl || $totalPl >= 0 ?'+'.number_format($totalPl,2, '.', ''):number_format($totalPl,2,'.', '');
+            $resultData['color'] = $totalInvested <= $totalPl || $totalPl >= 0 ?true:false;
             $resultData['data'] = $this->__paginate(SubscriptionResource::collection($result),$result);
             return $this->sendResponse($resultData, __('Data was retrieved successfully.'));
         }catch (Exception $ex) {

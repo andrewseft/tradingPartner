@@ -19,7 +19,7 @@ if(!empty($user)){
         </div>
         <div class="content">
             <div class="input-group input-lg">
-            {{ Form::email('email',null , array_merge(['placeholder'=>__('Email*'),'class' => $errors->has('email') ? 'form-control form-control-user has-error': 'form-control form-control-user','data-validation'=>'required,server','data-validation-url'=>route('checkEmailExists'),'data-validation-param-name'=>'email','data-validation-error-msg'=>__('This is a required field'),'data-validation-error-msg-container'=>'#email-error','autofocus'=>'true'])) }}
+            {{ Form::email('email',null , array_merge(['placeholder'=>__('Email*'),'class' => $errors->has('email') ? 'form-control form-control-user has-error': 'form-control form-control-user','data-validation'=>'required','data-validation-url'=>route('checkEmailExists'),'data-validation-param-name'=>'email','data-validation-error-msg'=>__('This is a required field'),'data-validation-error-msg-container'=>'#email-error','autofocus'=>'true'])) }}
                 <span class="input-group-addon">
                     <i class="zmdi zmdi-email"></i>
                 </span>

@@ -127,9 +127,9 @@ const Dashboardheader = () => {
                     >
                       <i className="fas fa-tools"></i>&nbsp;Change Password
                     </Dropdown.Item>
-                    <Dropdown.Item onClick={(e) => handleClick("/user/refer")}>
+                    {/* <Dropdown.Item onClick={(e) => handleClick("/user/refer")}>
                       <i className="fas fa-user-plus"></i>&nbsp;Refer & Earn
-                    </Dropdown.Item>
+                    </Dropdown.Item> */}
                     <Dropdown.Item
                       onClick={(e) => handleClick("/user/notification")}
                     >

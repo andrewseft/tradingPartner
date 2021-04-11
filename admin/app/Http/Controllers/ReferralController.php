@@ -1,24 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
 use Carbon\Carbon;
-use App\Order;
-use App\User;
+use App\ReferralLog;
+use App\ReferralUse;
 
-class OrderController extends Controller
+class ReferralController extends Controller
 {
     /** @var  Limit */
     private $limit;
 
-    /** @var  Order */
-    private $order;
+    /** @var  ReferralLog */
+    private $log;
 
-    /** @var  User */
-    private $user;
+    /** @var  ReferralUse */
+    private $use;
 
     /**
      * Create a new controller instance.
@@ -26,11 +26,11 @@ class OrderController extends Controller
      * @return void
      */
 
-    public function __construct(Order $order, User $user)
+    public function __construct(ReferralLog $log, ReferralUse $use)
     {
-        $this->order = $order;
+        $this->log = $log;
+        $this->use = $use;
         $this->limit = Helper::setting()->admin_limit;
-        $this->user = $user;
     }
 
     /**
@@ -41,12 +41,12 @@ class OrderController extends Controller
      *
      */
     public function index(Request $request){
-        $title = __('Orders');
-        $orderData = $this->order;
-        $order = $this->order->sortable()->with(['plan','user'])->orderBy('id', 'desc');
+        $title = __('Referral');
+        $useData = $this->use;
+        $use = $this->use->sortable()->with(['user','from'])->orderBy('id', 'desc');
         if ($request->query('keyword')) {
             $keyword = $request->query('keyword');
-            $order->whereHas('user', function ($q) use ($keyword) {
+            $use->whereHas('user', function ($q) use ($keyword) {
                 $q->where('first_name', 'LIKE', '%' . $keyword . '%');
             })->orwhereHas('plan', function ($q) use ($keyword) {
                 $q->where('title', 'LIKE', '%' . $keyword . '%');
@@ -55,30 +55,19 @@ class OrderController extends Controller
         if ($request->query('created_at_from') && $request->query('created_at_to')) {
             $from_date = Carbon::createFromFormat('Y-m-d', $request->query('created_at_from'))->format('Y-m-d').' 00:00:00';
             $end_date = Carbon::createFromFormat('Y-m-d', $request->query('created_at_to'))->format('Y-m-d').' 23:59:59';
-            $order->whereBetween('created_at', array($from_date, $end_date));
+            $use->whereBetween('created_at', array($from_date, $end_date));
         } else if ($request->query('created_at_from')) {
             $date = Carbon::createFromFormat('Y-m-d', $request->query('created_at_from'))->format('Y-m-d').' 00:00:00';
-            $order->whereDate('created_at', '=', $date);
+            $use->whereDate('created_at', '=', $date);
         } else if ($request->query('created_at_to')) {
             $date = Carbon::createFromFormat('Y-m-d', $request->query('created_at_to'))->format('Y-m-d').' 00:00:00';
-            $order->whereDate('created_at', '=', $date);
+            $use->whereDate('created_at', '=', $date);
         }                     
-        $data = $order->paginate($this->limit);
+        $data = $use->paginate($this->limit);
         $data->appends($request->query());
-        $orderData = $request->query(); 
-        $totalQty = 0;
-        $totalAmount = 0;
-        $currentQty = 0;
-        $currentAmount = 0; 
-        foreach($data as $key => $value){
-            $totalQty += $value->qty;
-            $totalAmount += ($value->amount);
-            if($value->type == 1){
-                $currentQty += $value->qty;
-                $currentAmount += ($value->amount);
-            }
-        }      
-        return view('admin.order.index', compact('currentAmount','currentQty','title', 'data', 'request', 'order','orderData','totalQty','totalAmount'));
+      
+        $useData = $request->query();
+        return view('admin.referral.index', compact('title', 'data', 'request', 'use','useData'));
          
     }
 
@@ -89,14 +78,13 @@ class OrderController extends Controller
      * @method get
      *
      */
-    public function userOrder(Request $request, $id){
-        $title = __('Orders');
-        $user = $this->user->findOrFail(Helper::decode($id));
-        $orderData = $this->order;
-        $order = $this->order->sortable()->where('user_id',$user->id)->with(['plan'])->orderBy('id', 'desc');
+    public function referralUse(Request $request){
+        $title = __('Referral');
+        $useData = $this->log;
+        $use = $this->log->sortable()->with(['user'])->orderBy('id', 'desc');
         if ($request->query('keyword')) {
             $keyword = $request->query('keyword');
-            $order->whereHas('user', function ($q) use ($keyword) {
+            $use->whereHas('user', function ($q) use ($keyword) {
                 $q->where('first_name', 'LIKE', '%' . $keyword . '%');
             })->orwhereHas('plan', function ($q) use ($keyword) {
                 $q->where('title', 'LIKE', '%' . $keyword . '%');
@@ -105,24 +93,19 @@ class OrderController extends Controller
         if ($request->query('created_at_from') && $request->query('created_at_to')) {
             $from_date = Carbon::createFromFormat('Y-m-d', $request->query('created_at_from'))->format('Y-m-d').' 00:00:00';
             $end_date = Carbon::createFromFormat('Y-m-d', $request->query('created_at_to'))->format('Y-m-d').' 23:59:59';
-            $order->whereBetween('created_at', array($from_date, $end_date));
+            $use->whereBetween('created_at', array($from_date, $end_date));
         } else if ($request->query('created_at_from')) {
             $date = Carbon::createFromFormat('Y-m-d', $request->query('created_at_from'))->format('Y-m-d').' 00:00:00';
-            $order->whereDate('created_at', '=', $date);
+            $use->whereDate('created_at', '=', $date);
         } else if ($request->query('created_at_to')) {
             $date = Carbon::createFromFormat('Y-m-d', $request->query('created_at_to'))->format('Y-m-d').' 00:00:00';
-            $order->whereDate('created_at', '=', $date);
+            $use->whereDate('created_at', '=', $date);
         }                     
-        $data = $order->paginate($this->limit);
+        $data = $use->paginate($this->limit);
         $data->appends($request->query());
-        $orderData = $request->query(); 
-        $totalQty = 0;
-        $totalAmount = 0;  
-        foreach($data as $key => $value){
-            $totalQty += $value->qty;
-            $totalAmount += ($value->qty);
-        }      
-        return view('admin.order.userOrder', compact('user','title', 'data', 'request', 'order','orderData','totalQty','totalAmount'));
+      
+        $useData = $request->query();
+        return view('admin.referral.referralUse', compact('title', 'data', 'request', 'use','useData'));
          
     }
 }

@@ -19,7 +19,7 @@ const Amount = (props) => {
       amount: data.amount * 100, // 2000 paise = INR 20, amount in paisa
       name: "BankniftyPMS",
       description: "Add Anmount on wallet",
-      image: "https://bankniftypms.com/img/logo.png",
+      image: "https://bankniftypms.com/admin/img/logo.png",
       handler: function (response) {
         props.onHide()
         const params = {}

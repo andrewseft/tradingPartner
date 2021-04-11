@@ -22,7 +22,7 @@ Route::get('/clear_cache', function() {
 Route::get('/removeFolder', 'HomeController@removeFolder')->name('removeFolder');
 
 Route::group(['middleware'=>'minifier'], function(){
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/', 'HomeController@indexHome')->name('home');
     Route::post('/checkEmail', 'HomeController@checkEmail')->name('checkEmail');
     Route::post('/checkOtp', 'HomeController@checkOtp')->name('checkOtp');
     Route::post('/checkPassword', 'HomeController@checkPassword')->name('checkPassword');
@@ -33,7 +33,6 @@ Route::group(['middleware'=>'minifier'], function(){
     Route::get('country/status', 'HomeController@getStatus')->name('getStatus');
     Route::post('/contact/save', 'PageController@sendContact')->name('page.contact');
     Route::get('/checkSubscription', 'PageController@checkSubscription')->name('page.checkSubscription');
-    Route::get('/{slug}', 'HomeController@index')->name('homePage');
 
 });
 

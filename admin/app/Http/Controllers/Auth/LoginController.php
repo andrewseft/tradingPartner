@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Auth;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
@@ -111,6 +111,7 @@ class LoginController extends Controller
      */
     public function login()
     {
+        
         $title = __('Login');
         $user = $this->remember;
         return view('admin.auth.login', compact('title', 'user'));
