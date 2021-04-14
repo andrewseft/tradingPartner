@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { userLogout } from "../../actions/userActions"
 import { useHistory } from "react-router-dom"
 import { checkConform } from "../../utils/helpers"
+const { REACT_APP_PUBLIC_URL } = process.env
 const Dashboardheader = () => {
   const { userInfo } = useSelector((state) => ({
     userInfo: state.userInfo,
@@ -35,7 +36,7 @@ const Dashboardheader = () => {
             to="/user/dashboard"
           >
             <img
-              src="../assets/img/logo.png"
+              src={REACT_APP_PUBLIC_URL + "logo.png"}
               className="dashbaor_logo"
               alt="dashbaor_logo"
             />

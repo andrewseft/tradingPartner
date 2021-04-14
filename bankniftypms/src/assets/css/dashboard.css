@@ -449,6 +449,147 @@ ul {
     border: 3px dashed #eeeeee;
     background-color: #fafafa;
     color: #bdbdbd;
-  
     margin-bottom: 20px;
   }
+
+  .bank_rate{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.bank_share{
+   
+    text-align: right;
+}
+.bank_title{
+    width: 100%;
+    
+}
+.bank_list{
+    position: relative;
+}
+.bank_list:hover .chart_sec{
+    display: block!important;
+    transform: translate(0, -10px);
+}
+.bank_list:hover{
+    background-color: #fafafa;
+}
+.bank_list .chart_sec{
+    position: absolute;
+    bottom: -12px;
+    right: 0px;
+    padding: 11px 3px;
+    text-align: right;
+    transform: translate(0, 90px);
+}
+.bank_list .chart_sec ul{
+    padding: 0;
+    margin: 0;
+}
+.bank_list .chart_sec ul li{
+    list-style-type: none;
+    display: inline-block;
+}
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+    border-bottom: 2px solid #4184f3!important;
+}
+.bank_list .chart_sec ul li .b
+{
+    background-color: #4184f3;
+
+}
+.bank_list .chart_sec ul li .c
+{
+    background-color: #4184f3;
+
+}
+.bank_list .chart_sec ul li .s
+{
+    background-color: red;
+
+}
+.bank_list .chart_sec ul li a{
+
+    text-decoration: none;
+    color: #fff;
+    width: 33px;
+    height: 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    margin: 0px 4px;
+}
+
+/* nse_header */
+
+.nse_header{
+    background-color: #4184f3;
+    display: flex;
+    color: #fff;
+    align-items: center;
+    padding: 1rem 10px;
+}
+.nse_header_sell{
+    background-color: #f34141;
+    display: flex;
+    color: #fff;
+    align-items: center;
+    padding: 1rem 10px;  
+}
+.nse_header h2,h4{
+    color: #fff;
+    font-size: 24px;
+}
+.nse_header_sell h2,h4{
+    color: #fff;
+    font-size: 24px;
+}
+.nse_main{
+    border: 1px solid #00000047;
+}
+.nav-tabs{
+    border-bottom: none!important;
+}
+.nav-tabs .nav-link{
+    border: none!important;
+}
+.nse_main .form-control{
+    height: 45px;
+    border-radius: 0px;
+}
+.nse_main .form-label{
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+}
+.nse_main input[type=checkbox], input[type=radio]{
+    margin: 1px 4px;
+}
+.nse_footer{
+    background-color: #efefef;
+    padding: 6px 9px;
+}
+.nse_footer .buy{
+    background-color: #4184f3;
+    color: #fff;
+}
+
+.nse_footer .sell{
+    background-color: #f34141;
+    color: #fff;
+}
+.nse_footer a{
+    margin: 5px 6px;
+    padding: 6px 17px;
+}
+.nse_footer .contact{
+    background-color: #fff;
+    border: 1px solid #00000047;
+}
+.nse_header h2,h4{
+    margin: 0px;
+}
+/* nse_header */

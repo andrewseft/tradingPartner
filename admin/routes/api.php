@@ -74,6 +74,7 @@ Route::group(['prefix' => 'v1'], function () {
             Route::group(['prefix' => 'plan'], function () {
                 Route::post('/', 'API\PlanController@index')->name('plan');
                 Route::get('/details/{id}', 'API\PlanController@detail')->name('planDetails');
+                Route::get('/detailsSlug/{id}', 'API\PlanController@detailSlug')->name('detailSlug');
                 Route::post('/graph', 'API\PlanController@graph')->name('graph');
                 Route::post('/buy', 'API\OrderController@buyPlan')->name('plan.buy');
                 Route::post('/pmsStop', 'API\OrderController@pmsStop')->name('plan.pmsStop');

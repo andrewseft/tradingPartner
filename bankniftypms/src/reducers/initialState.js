@@ -18,4 +18,5 @@ export default {
   holding: [],
   holdingList: {},
   walletAmount: 0,
+  planDetail: {},
 }

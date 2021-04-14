@@ -19,6 +19,10 @@ export function loadNotificationDataSuccess(notification) {
   return { type: types.NOTIFICATION_DATA_SUCCESS, notification }
 }
 
+export function loadPlanDetailDataSuccess(planDetail) {
+  return { type: types.LOADED_PLAN_DETAIL_DATA_SUCCESS, planDetail }
+}
+
 export const getPlanData = () => async (dispatch) => {
   try {
     dispatch(toggleNetworkRequestStatus(true))
@@ -80,6 +84,40 @@ export const getStatementLinkData = (request) => async (dispatch) => {
     const response = await agent.post(API.GET_STATEMENT_LINK, request)
     dispatch(toggleNetworkRequestStatus(false))
     window.open(response.data.data, "_blank")
+  } catch (error) {
+    dispatch(toggleNetworkRequestStatus(false))
+  }
+}
+
+export const getPlanDetailData = (slug) => async (dispatch) => {
+  try {
+    dispatch(loadPlanDetailDataSuccess({}))
+    dispatch(toggleNetworkRequestStatus(true))
+    const response = await agent.get(API.GET_PLAN_DETAIL + slug)
+    dispatch(toggleNetworkRequestStatus(false))
+    dispatch(loadPlanDetailDataSuccess(response.data.data))
+  } catch (error) {
+    dispatch(toggleNetworkRequestStatus(false))
+  }
+}
+
+export const buyPlan = (request, push) => async (dispatch) => {
+  try {
+    dispatch(toggleNetworkRequestStatus(true))
+    await agent.post(API.BUY_PLAN_DETAIL, request)
+    dispatch(toggleNetworkRequestStatus(false))
+    push("/user/order")
+  } catch (error) {
+    dispatch(toggleNetworkRequestStatus(false))
+  }
+}
+
+export const sellPlan = (request, push) => async (dispatch) => {
+  try {
+    dispatch(toggleNetworkRequestStatus(true))
+    await agent.post(API.SELL_PLAN_DETAIL, request)
+    dispatch(toggleNetworkRequestStatus(false))
+    push("/user/order")
   } catch (error) {
     dispatch(toggleNetworkRequestStatus(false))
   }

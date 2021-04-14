@@ -22,6 +22,8 @@ import NotificationPage from "../Pages/Notification"
 import OrderPage from "../Pages/Order"
 import HoldingPage from "../Pages/Holding"
 import PositionsPage from "../Pages/Positions"
+import PlanDetail from "../Pages/PlanDetail"
+import PlanSellDetail from "../Pages/PlanSellDetail"
 
 export const RoutesPage = [
   { path: "/", component: HomePage, title: "Home" },
@@ -108,5 +110,15 @@ export const RoutesUser = [
     path: "/user/positions",
     component: PositionsPage,
     title: "Positions",
+  },
+  {
+    path: "/plan/detail/buy/:slug",
+    component: PlanDetail,
+    title: "Plan Detail",
+  },
+  {
+    path: "/plan/detail/sell/:slug",
+    component: PlanSellDetail,
+    title: "Plan Detail",
   },
 ]

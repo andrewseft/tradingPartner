@@ -19,6 +19,7 @@ import walletAmount from "./amountReducers"
 import order from "./orderReducer"
 import holding from "./holdingReducer"
 import holdingList from "./holdingListReducer"
+import planDetail from "./planDetailReducer"
 
 const rootReducer = combineReducers({
   isAuth,
@@ -39,6 +40,7 @@ const rootReducer = combineReducers({
   order,
   holding,
   holdingList,
+  planDetail,
 })
 
 export default function combinedRootReducer(state, action) {

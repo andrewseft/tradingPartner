@@ -1,4 +1,4 @@
-import React, { useEffect, Suspense } from "react"
+import React, { useEffect, Suspense, useState } from "react"
 import { getSettingData } from "../actions/settingActions"
 import { useSelector, useDispatch } from "react-redux"
 import ScrollToTop from "../Component/ScrollToTop"
@@ -12,10 +12,20 @@ import "@fortawesome/fontawesome-free/css/all.css"
 
 const App = () => {
   const dispatch = useDispatch()
+  const [visible, setVisible] = useState(false)
   const { isAuth, isFetching } = useSelector((state) => ({
     isAuth: state.isAuth,
     isFetching: state.isFetching,
   }))
+  const toggleVisible = () => {
+    const scrolled = document.documentElement.scrollTop
+    if (scrolled > 300) {
+      setVisible(true)
+    } else if (scrolled <= 300) {
+      setVisible(false)
+    }
+  }
+  window.addEventListener("scroll", toggleVisible)
 
   useEffect(() => {
     const fetchData = () => {
@@ -23,6 +33,13 @@ const App = () => {
     }
     fetchData()
   }, [dispatch])
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    })
+  }
   return (
     <>
       <Suspense fallback={<Loading />}>
@@ -30,6 +47,11 @@ const App = () => {
         <ScrollToTop />
         <Page isAuth={isAuth} />
       </Suspense>
+      {visible && (
+        <span className="pull_top mb-5" onClick={scrollToTop}>
+          <i className="fa fa-arrow-up" aria-hidden="true"></i>
+        </span>
+      )}
     </>
   )
 }

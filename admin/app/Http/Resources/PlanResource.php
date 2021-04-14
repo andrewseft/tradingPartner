@@ -19,6 +19,7 @@ class PlanResource extends JsonResource
         return [
             'id' =>$this->id,
             'title' => ucfirst($this->title),
+            'slug' => $this->slug,
             'price' => number_format($this->amount,2,'.', ''),
             'amount' => number_format($this->amount+$this->closing_balance,2),
             'tag' => Tag::collection($this->tagList),

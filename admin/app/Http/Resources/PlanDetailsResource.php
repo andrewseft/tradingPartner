@@ -64,6 +64,7 @@ class PlanDetailsResource extends JsonResource
         return [
             'id' =>$this->id,
             'title' => ucfirst($this->title),
+            'slug' => $this->slug,
             'description' => $this->description,
             'currentAmount' => number_format($this->closing_balance + $this->amount,2),
             'amount' => $this->amount,
@@ -82,6 +83,7 @@ class PlanDetailsResource extends JsonResource
             'qty'=>isset(static::$order->qty)?number_format((static::$QTY),2):0,
             'buyAvg' => number_format($this->amount,2),
             'isPms'=>isset(static::$order->is_pms)?static::$order->is_pms:0,
+            'isPmsWeb'=>isset(static::$order->is_pms)?true:false,
             'statements' => PlanLog::collection(static::$planLog),
             "profitChart"=>  static::$profitChart,
             "lossChart"=>  static::$lossChart,

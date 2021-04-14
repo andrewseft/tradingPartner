@@ -24,6 +24,7 @@ use App\Manager\NotificationManager;
 use DB;
 use App\SubscriptionHolding;
 use App\Statement;
+use Illuminate\Support\Str;
  
 
 class PlanController extends Controller
@@ -147,6 +148,7 @@ class PlanController extends Controller
 
         }
         $data->title = $request->get('title');
+        $data->slug = Str::slug($request->get('title'), '-');
         $data->amount = $request->get('amount');
         $data->min_qty = $request->get('min_qty');
         $data->qty = $request->get('qty');

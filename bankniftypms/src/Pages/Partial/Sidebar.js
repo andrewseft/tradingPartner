@@ -1,6 +1,7 @@
 import React, { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { getPlanData } from "../../actions/planActions"
+import { NavLink } from "react-router-dom"
 
 const Sidebar = () => {
   const dispatch = useDispatch()
@@ -51,6 +52,26 @@ const Sidebar = () => {
                       }
                       aria-hidden="true"
                     ></i>
+                  </div>
+                  <div className="chart_sec w-100 d-none">
+                    <ul>
+                      <li>
+                        <NavLink
+                          className="b"
+                          to={`/plan/detail/buy/${item.slug}`}
+                        >
+                          B
+                        </NavLink>
+                      </li>
+                      <li>
+                        <NavLink
+                          className="s"
+                          to={`/plan/detail/sell/${item.slug}`}
+                        >
+                          S
+                        </NavLink>
+                      </li>
+                    </ul>
                   </div>
                   <div className="bank_share">
                     <span
