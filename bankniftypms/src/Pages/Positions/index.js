@@ -27,6 +27,7 @@ const Index = (props) => {
   const [fromDate, handleFromDateChange] = useState(null)
   const [toDate, handleToDateChange] = useState(null)
   const [keyword, setKeyword] = useState("")
+  const [showFilter, setShowFilter] = useState(false)
   const { holding, holdingList } = useSelector((state) => ({
     holding: state.holding,
     holdingList: state.holdingList,
@@ -60,14 +61,17 @@ const Index = (props) => {
     if (params.get("keyword")) {
       var keyword = queryStringParsed["keyword"]
       setKeyword(keyword)
+      setShowFilter(true)
     }
     if (params.get("from")) {
       var from = queryStringParsed["from"]
       handleFromDateChange(from)
+      setShowFilter(true)
     }
     if (params.get("to")) {
       var to = queryStringParsed["to"]
       handleToDateChange(to)
+      setShowFilter(true)
     }
   }, [location])
 
@@ -168,6 +172,10 @@ const Index = (props) => {
     history.push(`/user/positions`)
   }
 
+  const handleClickFilterShow = () => {
+    setShowFilter(!showFilter)
+  }
+
   return (
     <>
       <Breadcrumb {...props} />
@@ -176,95 +184,108 @@ const Index = (props) => {
           <Col>
             <Card>
               <Card.Header>
-                <Card.Title>Positions({holding.length})</Card.Title>
-              </Card.Header>
-              <Card.Body>
-                <Form onSubmit={handleSubmit(onSubmit)}>
-                  <Row className="dashboard_row_change">
-                    <Col md={4} className="mb-2">
-                      <TextField
-                        className="w-100"
-                        id="outlined-basic"
-                        label="Search by plan"
-                        variant="outlined"
-                        size={"small"}
-                        name="keyword"
-                        value={keyword}
-                        onChange={(event) => setKeyword(event.target.value)}
-                      />
-                    </Col>
-                    <Col md={4} className="mb-2">
-                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <DatePicker
-                          autoOk
-                          clearable
-                          disableFuture
-                          format="yyyy-MM-dd"
-                          id="date-picker-inline"
-                          className="w-100"
-                          label="From (Registered At)"
-                          value={fromDate}
-                          size={"small"}
-                          onChange={(date) =>
-                            handleClickDate(
-                              date
-                                ? moment(new Date(date)).format("YYYY-MM-DD")
-                                : null,
-                              "from"
-                            )
-                          }
-                          TextFieldComponent={renderInputFromDate}
-                        />
-                      </MuiPickersUtilsProvider>
-                    </Col>
-                    <Col md={4} className="mb-2">
-                      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <DatePicker
-                          autoOk
-                          clearable
-                          disableFuture
-                          format="yyyy-MM-dd"
-                          id="date-picker-inline"
-                          className="w-100"
-                          label="To (Registered At)"
-                          value={toDate}
-                          size={"small"}
-                          onChange={(date) =>
-                            handleClickDate(
-                              date
-                                ? moment(new Date(date)).format("YYYY-MM-DD")
-                                : null,
-                              "to"
-                            )
-                          }
-                          TextFieldComponent={renderInputToDate}
-                        />
-                      </MuiPickersUtilsProvider>
-                    </Col>
-                  </Row>
-
-                  <div className="mt-3">
+                <Card.Title>
+                  Positions({holding.length}){" "}
+                  <span className="float-right">
                     <Button
                       variant="contained"
-                      color="default"
-                      className="mr-3"
-                      type="submit"
                       startIcon={<SearchIcon />}
+                      onClick={() => handleClickFilterShow()}
                     >
-                      Search
+                      Filter
                     </Button>
+                  </span>
+                </Card.Title>
+              </Card.Header>
+              {showFilter && (
+                <Card.Body>
+                  <Form onSubmit={handleSubmit(onSubmit)}>
+                    <Row className="dashboard_row_change">
+                      <Col md={4} className="mb-2">
+                        <TextField
+                          className="w-100"
+                          id="outlined-basic"
+                          label="Search by plan"
+                          variant="outlined"
+                          size={"small"}
+                          name="keyword"
+                          value={keyword}
+                          onChange={(event) => setKeyword(event.target.value)}
+                        />
+                      </Col>
+                      <Col md={4} className="mb-2">
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                          <DatePicker
+                            autoOk
+                            clearable
+                            disableFuture
+                            format="yyyy-MM-dd"
+                            id="date-picker-inline"
+                            className="w-100"
+                            label="From (Registered At)"
+                            value={fromDate}
+                            size={"small"}
+                            onChange={(date) =>
+                              handleClickDate(
+                                date
+                                  ? moment(new Date(date)).format("YYYY-MM-DD")
+                                  : null,
+                                "from"
+                              )
+                            }
+                            TextFieldComponent={renderInputFromDate}
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Col>
+                      <Col md={4} className="mb-2">
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                          <DatePicker
+                            autoOk
+                            clearable
+                            disableFuture
+                            format="yyyy-MM-dd"
+                            id="date-picker-inline"
+                            className="w-100"
+                            label="To (Registered At)"
+                            value={toDate}
+                            size={"small"}
+                            onChange={(date) =>
+                              handleClickDate(
+                                date
+                                  ? moment(new Date(date)).format("YYYY-MM-DD")
+                                  : null,
+                                "to"
+                              )
+                            }
+                            TextFieldComponent={renderInputToDate}
+                          />
+                        </MuiPickersUtilsProvider>
+                      </Col>
+                    </Row>
 
-                    <Button
-                      variant="contained"
-                      color="secondary"
-                      startIcon={<RefreshIcon />}
-                      onClick={() => handleClickFilter()}
-                    >
-                      Reset
-                    </Button>
-                  </div>
-                </Form>
-              </Card.Body>
+                    <div className="mt-3">
+                      <Button
+                        variant="contained"
+                        color="default"
+                        className="mr-3"
+                        type="submit"
+                        startIcon={<SearchIcon />}
+                      >
+                        Search
+                      </Button>
+
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        startIcon={<RefreshIcon />}
+                        onClick={() => handleClickFilter()}
+                      >
+                        Reset
+                      </Button>
+                    </div>
+                  </Form>
+                </Card.Body>
+              )}
             </Card>
           </Col>
 

@@ -329,7 +329,7 @@ class OrderController extends BaseController
     {
         try {
             $user = Auth::user();
-            $query = $this->order->where('user_id',$user->id)->with(['plan'])->where('is_move',0)->sortable()->orderBy('id', 'desc');
+            $query = $this->order->where('user_id',$user->id)->whereDate('created_at', Carbon::today())->with(['plan'])->where('is_move',0)->sortable()->orderBy('id', 'desc');
             if ($request->get('keyword')) {
                 $keyword = $request->get('keyword');
                 $query->whereHas('plan', function ($q) use ($keyword) {

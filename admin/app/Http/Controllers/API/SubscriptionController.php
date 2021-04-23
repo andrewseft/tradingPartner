@@ -421,7 +421,7 @@ class SubscriptionController extends BaseController
     public function position(Request $request){
         try {
             $user = Auth::user();
-            $query = $this->order->where('user_id',$user->id)->with(['plan','planlogs'])->where('is_move',0)->where('is_pms',1)->sortable()->orderBy('id', 'desc');
+            $query = $this->order->where('user_id',$user->id)->with(['plan','planlogs'])->whereDate('created_at', Carbon::today())->where('is_move',0)->where('is_pms',1)->sortable()->orderBy('id', 'desc');
             if ($request->get('keyword')) {
                 $keyword = $request->get('keyword');
                 $query->whereHas('plan', function ($q) use ($keyword) {
@@ -440,8 +440,8 @@ class SubscriptionController extends BaseController
                 $query->whereDate('created_at', '=', $date);
             }
             $result = $query->paginate($this->limit);
-            $totalPl = Statement::where('user_id',$user->id)->where('is_move',0)->sum('pl');
-            $totalInvested = Statement::where('user_id',$user->id)->where('is_move',0)->sum('invested');
+            $totalPl = Statement::where('user_id',$user->id)->whereDate('created_at', Carbon::today())->where('is_move',0)->sum('pl');
+            $totalInvested = Statement::where('user_id',$user->id)->whereDate('created_at', Carbon::today())->where('is_move',0)->sum('invested');
             
             $resultData['totalPl'] = $totalInvested <= $totalPl || $totalPl >= 0 ?'+'.number_format($totalPl,2, '.', ''):number_format($totalPl,2,'.', '');
             $resultData['color'] = $totalInvested <= $totalPl || $totalPl >= 0 ?true:false;

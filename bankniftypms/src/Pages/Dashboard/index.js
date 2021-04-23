@@ -47,7 +47,7 @@ const Index = (props) => {
                   </div>
 
                   <div className="label_wallet">
-                    <span>Margin available</span>
+                    <span>Funds</span>
                   </div>
                 </div>
 
@@ -82,7 +82,7 @@ const Index = (props) => {
                   </div>
 
                   <div className="label_wallet">
-                    <span>Margin available</span>
+                    <span>Total Charges</span>
                   </div>
                 </div>
 
@@ -110,7 +110,7 @@ const Index = (props) => {
                 <span className="">
                   <i className="fa fa-briefcase" aria-hidden="true"></i>
                 </span>
-                <span className="ml-2">Holding Profit Loss</span>
+                <span className="ml-2">Holdings</span>
                 <span>({userDashbord.totalHolding})</span>
               </div>
 
@@ -122,7 +122,7 @@ const Index = (props) => {
                   </div>
 
                   <div className="label_wallet">
-                    <span>Profite Loss</span>
+                    <span>P&L</span>
                   </div>
                 </div>
 

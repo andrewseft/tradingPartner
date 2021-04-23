@@ -48,10 +48,7 @@ const Home = (props) => {
           <Col lg={6} md={6}>
             <div className="banner_form">
               <h3>Get started for Free</h3>
-              <p className="mb-4">
-                App ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              </p>
+              <p className="mb-4"></p>
               <Form onSubmit={handleSubmit(onSubmit)}>
                 <Form.Group controlId="formBasicEmail">
                   <TextField

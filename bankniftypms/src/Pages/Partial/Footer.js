@@ -22,8 +22,8 @@ const Footer = () => {
                   />
                 </Link>
 
-                <p className="mt-4">{setting.about_us}</p>
-                <ul className="social-list">
+                <p className="mt-4"></p>
+                <ul className="social-list pt-5">
                   <li>
                     <a
                       href="#!"

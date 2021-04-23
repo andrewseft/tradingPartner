@@ -6,7 +6,6 @@ import { useParams, useHistory } from "react-router-dom"
 import TextField from "@material-ui/core/TextField"
 import { checkConform } from "../../utils/helpers"
 import CanvasJSReact from "../../assets/canvasjs.react"
-var CanvasJS = CanvasJSReact.CanvasJS
 var CanvasJSChart = CanvasJSReact.CanvasJSChart
 const Breadcrumb = lazy(() => import("../../Component/Breadcrumb"))
 
