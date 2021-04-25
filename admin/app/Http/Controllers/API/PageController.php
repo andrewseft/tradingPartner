@@ -64,7 +64,7 @@ class PageController extends BaseController
     public function index($slug)
     {
         try {
-            $slugArray = array('about-us'=>1,'privacy-policies'=>2,'terms-conditions'=>3,"cancellation-policy"=>6,"return-policy"=>7);
+            $slugArray = array('about-us'=>1,'privacy-policy'=>2,'terms-conditions'=>3,"cancellation-policy"=>6,"return-policy"=>7);
             $page = $this->page->with(['detail'])->where('id', $slugArray[$slug])->where('status',1)->first();
             
             if(!empty($page)){
