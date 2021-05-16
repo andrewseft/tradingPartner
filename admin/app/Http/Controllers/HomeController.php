@@ -30,6 +30,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use App\Manager\CacheManager;
 use App\Manager\UploadManager;
+use App\ReferralLog;
  
 
 class HomeController extends Controller
@@ -52,13 +53,16 @@ class HomeController extends Controller
     /** @var  Statement */
     private $statement;
 
+    /** @var  ReferralLog */
+    private $log;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
 
-    public function __construct(Statement $statement, SubscriptionHolding $subscriptionHolding, wallet $wallet, Order $order, Subscription $subscription, UserManager $user, NotificationManager $notification, SubscriptionRedeem $redeem ,Page $page, Faq $faq,UploadManager $upload,NotificationManager $NotificationManager,EmailManager $emailManager,CacheManager $cacheManager)
+    public function __construct(ReferralLog $log, Statement $statement, SubscriptionHolding $subscriptionHolding, wallet $wallet, Order $order, Subscription $subscription, UserManager $user, NotificationManager $notification, SubscriptionRedeem $redeem ,Page $page, Faq $faq,UploadManager $upload,NotificationManager $NotificationManager,EmailManager $emailManager,CacheManager $cacheManager)
     {
         $this->guard = Constant::GUARD;
         $this->user = $user;
@@ -70,7 +74,7 @@ class HomeController extends Controller
         $this->wallet = $wallet;
         $this->subscriptionHolding = $subscriptionHolding;
         $this->statement = $statement;
-
+        $this->log = $log;
         $this->PasswordReset = new PasswordReset();
         $this->redirectTo = Constant::REDIRECT_LOGIN;
         $this->expireDay = Constant::EXPIRE_DAY;
@@ -256,9 +260,39 @@ class HomeController extends Controller
             $withdrawal = $this->redeem->whereDate('created_at', '=', $date)->sum('final_pl');
         }
 
-         
-
-        return view('admin.home.dashboard', compact('stopPms','startPms','withdrawal','invested','walletAmount','walletAmount','redeemQty','subscriptionQty','planData','title','totalUser','planform_fee','commission','total_charges','chart','redeemsChart'));
+        $referralUsers = [];
+        $referralUsersCount = [];
+        $referralUsersData = ReferralLog::where("created_at",">", Carbon::now()->subMonths(3))->orderBy('created_at','desc')->select('amount','created_at')->get()->groupBy(function ($val) {
+            return Carbon::parse($val->created_at)->format('M');
+        })->toArray();
+       
+        foreach($referralUsersData as $key => $val){
+            $count = 0;
+            $referralUsersCount[] = count($val);
+            foreach($val as $amountKey => $amount){
+                $count += $amount['amount'];
+            }
+            $referralUsers[] = $count;
+        }
+    
+        /**
+         * Line Chart Referral Log
+         */
+        $date = Carbon::now();
+        $referralChart = new UserChart;
+        $referralChart->title('Last Three Months Records');
+        $referralChart->labels([$date->format('F').'-'.$date->format('Y'), $date->startOfMonth()->subMonth()->format('F').'-'.$date->format('Y'), $date->startOfMonth()->subMonth(1)->format('F').'-'.$date->format('Y')]);
+        $referralChart->dataset('Referral Amount', 'line', $referralUsers)->options([
+            'fill' => true,
+            'color' =>'#28a745',
+            'borderColor' => '#28a745'
+        ]);
+        $referralChart->dataset('Referral User', 'line', $referralUsersCount)->options([
+            'fill' => true,
+            'color' =>'#000',
+            'borderColor' => '#000'
+        ]);
+        return view('admin.home.dashboard', compact('referralChart','stopPms','startPms','withdrawal','invested','walletAmount','walletAmount','redeemQty','subscriptionQty','planData','title','totalUser','planform_fee','commission','total_charges','chart','redeemsChart'));
     }
 
     /**

@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Helpers\Helper;
 use Carbon\Carbon;
-use App\ReferralLog;
+use App\ReferralList;
 use App\ReferralUse;
 
 class ReferralController extends Controller
@@ -14,7 +14,7 @@ class ReferralController extends Controller
     /** @var  Limit */
     private $limit;
 
-    /** @var  ReferralLog */
+    /** @var  ReferralList */
     private $log;
 
     /** @var  ReferralUse */
@@ -26,7 +26,7 @@ class ReferralController extends Controller
      * @return void
      */
 
-    public function __construct(ReferralLog $log, ReferralUse $use)
+    public function __construct(ReferralList $log, ReferralUse $use)
     {
         $this->log = $log;
         $this->use = $use;
@@ -79,6 +79,7 @@ class ReferralController extends Controller
      *
      */
     public function referralUse(Request $request){
+        
         $title = __('Referral');
         $useData = $this->log;
         $use = $this->log->sortable()->with(['user'])->orderBy('id', 'desc');
@@ -103,7 +104,7 @@ class ReferralController extends Controller
         }                     
         $data = $use->paginate($this->limit);
         $data->appends($request->query());
-      
+        
         $useData = $request->query();
         return view('admin.referral.referralUse', compact('title', 'data', 'request', 'use','useData'));
          

@@ -7,7 +7,7 @@ use Kyslik\ColumnSortable\Sortable;
 use GeneaLabs\LaravelModelCaching\Traits\Cachable;
 use App\Constants\Constant;
 
-class ReferralLog extends Model
+class ReferralList extends Model
 {
     use Sortable,Cachable;
     protected $fillable = [ 'id', 'status' ];
@@ -20,7 +20,6 @@ class ReferralLog extends Model
      * user
      */
     public function user() {
-        return $this->hasOne(User::class, 'id','to_user');
+        return $this->hasOne(User::class, 'id','user_id');
     }
-    
 }

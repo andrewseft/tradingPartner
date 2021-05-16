@@ -114,7 +114,7 @@ class OrderController extends BaseController
                     return $this->sendError("Extremely Sorry! but we are full and hence closed taking new orders. Keep watching, the plan will re-open soon. Thanks for your love and support ;)");
                 }
                 $data = $this->order;
-                $pre = $this->order->where('user_id',$user->id)->where('type',1)->where('plan_id',$planData->id)->first();
+                $pre = $this->order->where('user_id',$user->id)->where('type',1)->where('plan_id',$planData->id)->whereDate('created_at', Carbon::today())->first();
                 if($pre){
                     $data = $pre;
                 }

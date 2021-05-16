@@ -18,6 +18,7 @@ use App\ReferralUse;
 use App\Manager\CacheManager;
 use App\Manager\EmailManager;
 use App\ReferralLog;
+use App\ReferralList;
 use App\Banner;
 use App\wallet;
 use App\Manager\NotificationManager;
@@ -46,7 +47,9 @@ class UserController extends BaseController
     private $referralUse;
     private $notificationList;
     private $referralLog;
+    private $referralList;
     private $banner;
+
 
 
     /** @var  wallet */
@@ -71,7 +74,7 @@ class UserController extends BaseController
      * @return void
      */
 
-    public function __construct(Statement $statement, Order $order, SubscriptionHolding $subscriptionHolding, wallet $wallet, Banner $banner, ReferralLog $referralLog, Notification $notificationList, ReferralUse $referralUse, UserProfile $userProfile, NotificationManager $NotificationManager, User $user, UploadManager $upload, EmailManager $email, CacheManager $cacheManager)
+    public function __construct(ReferralList $referralList, Statement $statement, Order $order, SubscriptionHolding $subscriptionHolding, wallet $wallet, Banner $banner, ReferralLog $referralLog, Notification $notificationList, ReferralUse $referralUse, UserProfile $userProfile, NotificationManager $NotificationManager, User $user, UploadManager $upload, EmailManager $email, CacheManager $cacheManager)
     {
         $this->user = $user;
         $this->upload = $upload;
@@ -89,6 +92,7 @@ class UserController extends BaseController
         $this->order = $order;
         $this->limit = Helper::setting()->admin_limit;
         $this->statement = $statement;
+        $this->referralList = $referralList;
     }
 
      
@@ -196,12 +200,13 @@ class UserController extends BaseController
     public function getReferral(Request $request){
         try {
             $user = Auth::user();
-            $data = $this->referralUse->where('to_user',$user->id)->with(['user'])->get();
+            $data = $this->referralList->where('user_id',$user->id)->get();
+            $totalUser = $this->user->where('is_referral',$user->id)->count();
             $referralLog = $this->referralLog->where('to_user',$user->id)->sum('amount');
             $result['referralID'] = $user->referral_code;
             $result['referralAmount'] = Helper::setting()->platform_commission;
             $result['receivedReferralAmount'] = $referralLog;
-            $result['totalFriends'] = $data->count();
+            $result['totalFriends'] = $totalUser;
             $result['linkList'] = ReferralUseResource::collection($data);
             return $this->sendResponse($result, trans('message.GET_DATA'));
         }catch (Exception $ex) {
@@ -306,7 +311,85 @@ class UserController extends BaseController
             $pl_percentage = 0;
             $currentInvested = Statement::where('user_id',$user->id)->where('is_move',0)->sum('capital_balance');
             $charges = Statement::where('user_id',$user->id)->where('is_move',0)->sum('total_commission');
+            
+            $process = User::where('is_referral',$user->id)->where("created_at",">", Carbon::now()->subMonths(3))->orderBy('created_at','desc')->select('id','created_at')->get()->groupBy(function ($val) {
+                return Carbon::parse($val->created_at)->format('F');
+            })->toArray();
+            $notInterested = [0,0,0];
+            $processCount = [];
+            $convertedCount = [];
+            $date = Carbon::now();
+            $month = [$date->format('F'),$date->startOfMonth()->subMonth()->format('F'),$date->startOfMonth()->subMonth(1)->format('F')];
+            foreach($month as $key => $val){
+                if(isset($process[$val])){
+                    $processCount[] = count($process[$val]);
+                }else{
+                    $processCount[]  = 0;  
+                }
+                
+            }
+            $account_converted = User::select('id')->where('is_referral',$user->id)->get();
+            $converted = SubscriptionHolding::whereIn('user_id',$account_converted->toArray())
+                        ->where("created_at",">", Carbon::now()->subMonths(3))->orderBy('created_at','desc')->select('id','created_at')->get()->groupBy(function ($val) {
+                            return Carbon::parse($val->created_at)->format('F');
+                        })->toArray();
+            
+            foreach($month as $key => $val){
+                if(isset($converted[$val])){
+                    $convertedCount[] = count($converted[$val]);
+                }else{
+                    $convertedCount[]  = 0;  
+                }
+                
+            }
              
+            /**
+             * referrlCount
+             */
+            $referrlCount = [
+                ["Not Interested", "Not Interested", "Lead In Process", "Leads Converted"],
+                [$month[0], $notInterested[0], $processCount[0], $convertedCount[0]],
+                [$month[1], $notInterested[1], $processCount[1], $convertedCount[1]],
+                [$month[2], $notInterested[2], $processCount[2], $convertedCount[2]],
+            ];
+
+            /**
+             * Referrl Payout
+             */
+            $brokerageData = [];
+            $referralPayout = ReferralList::where("created_at",">", Carbon::now()->subMonths(3))->where('user_id',$user->id)->orderBy('created_at','desc')->select('total','created_at')->get()->groupBy(function ($val) {
+                return Carbon::parse($val->created_at)->format('F');
+            })->toArray();
+            
+            foreach($month as $key => $val){
+                if(isset($referralPayout[$val])){
+                    $count = 0;
+                    foreach($referralPayout[$val] as $amountKey => $amountReferral){
+                        $count += $amountReferral['total'];
+                    }
+                    $brokerageData[]  = $count;
+                }else{
+                    $brokerageData[]  = 0;  
+                }
+                
+            }
+            $referrlPayoutData = [
+                ["x", "Brokerage", "Fixed"],
+                [$month[0], $brokerageData[0], 0],
+                [$month[1], $brokerageData[1], 0],
+                [$month[2], $brokerageData[2], 0],
+            ];
+
+            /**
+             * Trade Status
+             */
+            $activeTrade = SubscriptionHolding::where('user_id',$user->id)->where('is_pay',0)->get()->count();
+            $inActiveTrade = SubscriptionHolding::where('user_id',$user->id)->where('is_pay',1)->get()->count();
+            $tradeStatus =[
+                ["Task", "Hours per Day"],
+                ["Active", $activeTrade],
+                ["InActive", $inActiveTrade],
+            ];
             $statement = $this->statement->where('user_id',$user->id)->orderBy('id', 'desc')->get();
             $chg = Statement::where('user_id',$user->id)->where('is_move',0)->sum('chg');
             $totalHolding = $this->order->where('user_id',$user->id)->where('is_move',0)->where('is_pms',1)->count();
@@ -321,7 +404,9 @@ class UserController extends BaseController
             $data['totalStopPms'] = $this->order->where('user_id',$user->id)->where('is_pms',0)->count();
             $data['statement'] = StatementResource::collection($statement);
             $data['totalHolding'] = $totalHolding;
-             
+            $data['referrlCount'] = $referrlCount;
+            $data['referrlPayout'] = $referrlPayoutData;
+            $data['tradeStatus'] = $tradeStatus;
             return $this->sendResponse($data, 'Data was retrieved successfully.');
         }catch (Exception $ex) {
             return $this->sendError($ex->getMessage(),JsonResponse::HTTP_INTERNAL_SERVER_ERROR);

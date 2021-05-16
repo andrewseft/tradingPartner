@@ -162,11 +162,24 @@
                     </div>
                 </div>
             </div>
+            <div class="col-xl-6 col-lg-6">
+                <div class="card shadow mb-4">
+                    <!-- Card Header - Dropdown -->
+                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Referrals</h6>
+                    </div>
+                    <!-- Card Body -->
+                    <div class="card-body">
+                        {!! $referralChart->container() !!}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     
     {!! $chart->script() !!}
     {!! $redeemsChart->script() !!}
+    {!! $referralChart->script() !!}
     <script>
     $(".date").bootstrapMaterialDatePicker({weekStart:0,time:!1,maxDate:new Date}).on("change",function(e,t){$(this).focus(),$(this).next().removeClass("date_feild_close").addClass("date_feild_close_show")});
     $(document).on("click",".date_feild_close_show",function(){$(this).prev().val(""),$(this).removeClass("date_feild_close_show").addClass("date_feild_close")});

@@ -180,6 +180,7 @@ class PlanController extends BaseController
             }
             foreach($day as $key => $val){
                 $itemData['amount'] = number_format(0,2,'.', '');
+                $itemData['plPercent'] = number_format(0,2,'.', '');
                 $itemData['date'] = $val;
                 $resultData[] = isset($data[$val]) ? $data[$val] :$itemData;
             }

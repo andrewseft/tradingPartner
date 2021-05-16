@@ -24,6 +24,7 @@ import HoldingPage from "../Pages/Holding"
 import PositionsPage from "../Pages/Positions"
 import PlanDetail from "../Pages/PlanDetail"
 import PlanSellDetail from "../Pages/PlanSellDetail"
+import Referral from "../Pages/Referral"
 
 export const RoutesPage = [
   { path: "/", component: HomePage, title: "Home" },
@@ -120,5 +121,10 @@ export const RoutesUser = [
     path: "/plan/detail/sell/:slug",
     component: PlanSellDetail,
     title: "Plan Detail",
+  },
+  {
+    path: "/referral",
+    component: Referral,
+    title: "Referral",
   },
 ]

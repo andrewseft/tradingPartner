@@ -5,7 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 
 use App\User;
-use App\SubscriptionRedeem;
+use App\Statement;
+use App\ReferralList;
 use App\Setting;
 use App\wallet;
 use App\ReferralLog;
@@ -49,57 +50,53 @@ class Referral extends Command
      */
     public function handle()
     {
-        $user = User::select('id','is_referral')->where('is_referral','!=',null)->get();
         $currentMonth = date('m');
+        $user = ReferralList::whereRaw('MONTH(created_at) = ?',[$currentMonth])->get();
         if($user){
             foreach($user as $userValue){
-                $subscriptionRedeem = SubscriptionRedeem::where('user_id',$userValue->id)->whereRaw('MONTH(created_at) = ?',[$currentMonth])->sum('commission');
-                if($subscriptionRedeem > 0){
-                    /**
-                     * Add amount on wallet 
-                     */
-                    $amount = 0;
-                    $walletData = wallet::where('user_id',$userValue->is_referral)->orderBy('id', 'desc')->first();
-                    if($walletData){
-                        $amount =  $walletData->closing_bal; 
-                    }
-                    $data = new wallet();
-                    $data->user_id = $userValue->is_referral;
-                    $data->amount = $subscriptionRedeem;
-                    $data->transaction_id = 0;
-                    $data->type = 1;
-                    $data->closing_bal = $subscriptionRedeem + $amount;
-                    $data->remark = "Referral amount received for ".date('M') .' month';
-                    $data->save();
-
-                    /**
-                     * ReferralLog
-                     */
-                    $referralLog = new ReferralLog();
-
-                    $referralLog->to_user = $userValue->is_referral;
-                    $referralLog->from_user = $userValue->id;
-                    $referralLog->amount = $subscriptionRedeem;
-                    $referralLog->save();
-
-                    /**
-                     * Send email for user
-                     */
-                    $user = User::where('id',$userValue->is_referral)->first();
-                    $ACCOUNT_STATUS = trans('message.WALLET_STATUS');
-                    $meassge = trans('message.REFERRAL_AMOUNT',['MONTH'=>date('M'),'TOTAL_AMOUNT'=>number_format($subscriptionRedeem + $amount,2),'AMOUNT'=>number_format($subscriptionRedeem,2)]);
-                    $this->notification->send($user,route('admin.customer'),$ACCOUNT_STATUS,$meassge);
-
-                    /**
-                     * Send Email for admin
-                     */
-                    $adminUser = User::findOrFail(1);
-                    $ACCOUNT_STATUS = trans('message.WALLET_STATUS');
-                    $meassge = trans('message.REFERRAL_AMOUNT_ADMIN',['MONTH'=>date('M'),'NAME'=>ucfirst($user->first_name),'AMOUNT'=>number_format($subscriptionRedeem,2)]);
-                    $this->notification->send($adminUser,route('admin.customer'),$ACCOUNT_STATUS,$meassge);
-                    
+                /**
+                 * Add amount on wallet 
+                 */
+                $amount = 0;
+                $walletData = wallet::where('user_id',$userValue->user_id)->orderBy('id', 'desc')->first();
+                if($walletData){
+                    $amount =  $walletData->closing_bal; 
                 }
-                
+                $data = new wallet();
+                $data->user_id = $userValue->user_id;
+                $data->amount = $userValue->total;
+                $data->transaction_id = 0;
+                $data->type = 1;
+                $data->closing_bal = $userValue->total + $amount;
+                $data->remark = "Referral amount received for ".date('M') .' month';
+                $data->save();
+
+                /**
+                 * ReferralLog
+                 */
+                $referralLog = new ReferralLog();
+
+                $referralLog->to_user = $userValue->user_id;
+                $referralLog->from_user = $userValue->user_id;
+                $referralLog->amount = $userValue->total;
+                $referralLog->save();
+
+                /**
+                 * Send email for user
+                 */
+                $user = User::where('id',$userValue->user_id)->first();
+                $ACCOUNT_STATUS = trans('message.WALLET_STATUS');
+                $meassge = trans('message.REFERRAL_AMOUNT',['MONTH'=>date('M'),'TOTAL_AMOUNT'=>number_format($userValue->total + $amount,2),'AMOUNT'=>number_format($userValue->total,2)]);
+                $this->notification->send($user,route('admin.customer'),$ACCOUNT_STATUS,$meassge);
+
+                /**
+                 * Send Email for admin
+                 */
+                $adminUser = User::findOrFail(1);
+                $ACCOUNT_STATUS = trans('message.WALLET_STATUS');
+                $meassge = trans('message.REFERRAL_AMOUNT_ADMIN',['MONTH'=>date('M'),'NAME'=>ucfirst($user->first_name),'AMOUNT'=>number_format($userValue->total,2)]);
+                $this->notification->send($adminUser,route('admin.customer'),$ACCOUNT_STATUS,$meassge);
+                    
             }
         }
     }

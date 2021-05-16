@@ -16,9 +16,13 @@ class ReferralUse extends JsonResource
     public function toArray($request)
     {
         return [
-            'date' => $this->created_at->format('Y-m-d H:i'),
-            'referral_commission' => $this->referral_commission,
-            'user'=> $this->user->fullName
+            'month' => $this->month_name,
+            'account_converted' => $this->account_converted,
+            'trade_active' => $this->trade_active,
+            'flat_income' => $this->flat_income,
+            'gross_brokerage' => $this->gross_brokerage,
+            'net_sharing' => $this->net_sharing,
+            'total' => $this->total
         ];
     }
 }

@@ -22,7 +22,8 @@ class Setting extends JsonResource
             'copy_right' => $this->copy_right,
             'about_us' => $this->about_us,
             'google_link' => $this->google_link,
-            'apple_link' => $this->apple_link
+            'apple_link' => $this->apple_link,
+            "platform_commission" => $this->platform_commission
         ];
     }
 }

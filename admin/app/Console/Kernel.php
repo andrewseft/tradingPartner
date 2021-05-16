@@ -27,7 +27,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('subscription')->dailyAt('00:00');
         $schedule->command('subscription')->dailyAt('08:50');
         $schedule->command('RemoveSubscriptionList')->lastDayOfMonth('15:00');
-        $schedule->command('referral')->dailyAt('00:00');
+        $schedule->command('referral')->lastDayOfMonth('15:00');
+        $schedule->command('sendReferralList')->dailyAt('00:00');
         //$schedule->command('autoreedem')->hourly();
     }
 

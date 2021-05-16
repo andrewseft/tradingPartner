@@ -59,7 +59,13 @@
                                 <thead>
                                     <tr>
                                         <th>User</th>
-                                        <th>Amount</th>
+                                        <th>Month</th>
+                                        <th>Account Converted</th>
+                                        <th>Trade Active</th>
+                                        <th>Flat Income</th>
+                                        <th>Gross Brokerage</th>
+                                        <th>Net Sharing</th>
+                                        <th>Total</th>
                                         <th>@sortablelink('created_at',__('created At '))</th>
                                     </tr>
                                 </thead>
@@ -68,7 +74,13 @@
                                         @foreach($data as $key => $value)
                                             <tr>
                                                 <td>{{$value->user->fullName}}</td>
-                                                <td>{{$value->amount}}</td>
+                                                <td>{{$value->month_name}}</td>
+                                                <td>{{$value->account_converted}}</td>
+                                                <td>{{$value->trade_active}}</td>
+                                                <td>{{number_format($value->flat_income,2)}}</td>
+                                                <td>{{number_format($value->gross_brokerage,2)}}</td>
+                                                <td>{{number_format($value->net_sharing,2)}}</td>
+                                                <td>{{number_format($value->total,2)}}</td>
                                                 <td>{{Helper::date($value->created_at)}}</td>
                                             </tr>
                                         @endforeach
