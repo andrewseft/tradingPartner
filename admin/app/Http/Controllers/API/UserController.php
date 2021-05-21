@@ -27,6 +27,7 @@ use App\Http\Requests\API\UpdateProfileRequest;
 use App\Http\Requests\API\SettingRequest;
 use Illuminate\Http\JsonResponse;
 use App\Http\Resources\ReferralUse as ReferralUseResource;
+use App\Http\Resources\ReferralListResource as ReferralListResource;
 use App\Http\Resources\Notification as NotificationResource;
 use App\Http\Resources\Banner as BannerResource;
 use App\Http\Resources\Statement as StatementResource;
@@ -202,12 +203,16 @@ class UserController extends BaseController
             $user = Auth::user();
             $data = $this->referralList->where('user_id',$user->id)->get();
             $totalUser = $this->user->where('is_referral',$user->id)->count();
+            $referralUserList = $this->user->where('is_referral',$user->id)->get();
+
             $referralLog = $this->referralLog->where('to_user',$user->id)->sum('amount');
             $result['referralID'] = $user->referral_code;
             $result['referralAmount'] = Helper::setting()->platform_commission;
             $result['receivedReferralAmount'] = $referralLog;
             $result['totalFriends'] = $totalUser;
             $result['linkList'] = ReferralUseResource::collection($data);
+            $result['userReferralList'] = ReferralListResource::collection($referralUserList);
+            
             return $this->sendResponse($result, trans('message.GET_DATA'));
         }catch (Exception $ex) {
             return $this->sendError($ex->getMessage(),JsonResponse::HTTP_INTERNAL_SERVER_ERROR);
